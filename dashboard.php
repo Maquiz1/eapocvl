@@ -14,11 +14,11 @@ $noD = 0;
 $users = $override->getData('user');
 if ($user->isLoggedIn()) {
    if($user->data()->power == 1){
-       $screened = $override->getNo('clients');
-       $enrolled = $override->getCount('clients', 'enrolled', 1);
+       $screened = $override->getCount('clients', 'enrollment_status', 2);
+       $enrolled = $override->getCount('clients', 'enrollment_status', 1);
    }else{
-       $screened = $override->getCount('clients', 'site_id', $user->data()->site_id);
-       $enrolled = $override->countData('clients', 'enrolled', 1,'site_id', $user->data()->site_id);
+       $screened = $override->countData('clients', 'enrollment_status', 2,'site_id', $user->data()->site_id);
+       $enrolled = $override->countData('clients', 'enrollment_status', 1,'site_id', $user->data()->site_id);
    }
 } else {
     Redirect::to('index.php');
@@ -56,7 +56,7 @@ if ($user->isLoggedIn()) {
 
                         <div class="wBlock red clearfix">
                             <div class="dSpace">
-                                <h3>Screened</h3>
+                                <h3>Not Enrolled</h3>
                                 <span class="mChartBar" sparkType="bar" sparkBarColor="white">
                                     <!--130,190,260,230,290,400,340,360,390-->
                                 </span>

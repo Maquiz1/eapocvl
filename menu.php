@@ -64,19 +64,19 @@ if ($user->data()->accessLevel == 1) {
                 </ul>
             </li>
 
-            <li class="active">
-                <a href="zebra.php" target="_blank">
-                    <span class="isw-print"></span><span class="text">Zebra Print</span>
-                </a>
-            </li>
+<!--            <li class="active">-->
+<!--                <a href="zebra.php" target="_blank">-->
+<!--                    <span class="isw-print"></span><span class="text">Zebra Print</span>-->
+<!--                </a>-->
+<!--            </li>-->
 
-            <?php if($user->data()->power == 1){?>
-                <li class="active">
-                    <a href="zebra.php">
-                        <span class="isw-print"></span><span class="text">Zebra Print</span>
-                    </a>
-                </li>
-            <?php }?>
+<!--            --><?php //if($user->data()->power == 1){?>
+<!--                <li class="active">-->
+<!--                    <a href="zebra.php">-->
+<!--                        <span class="isw-print"></span><span class="text">Zebra Print</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            --><?php //}?>
 
             <li class="openable">
                 <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>
@@ -130,22 +130,22 @@ if ($user->data()->accessLevel == 1) {
 <!--                </a>-->
 <!--            </li>-->
 
-            <li class="active">
-                <a href="zebra.php" target="_blank">
-                    <span class="isw-print"></span><span class="text">Zebra Print</span>
-                </a>
-            </li>
-
-            <li class="openable">
-                <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>
-                <ul>
-                    <li>
-                        <a href="info.php?id=5">
-                            <span class="glyphicon glyphicon-list"></span><span class="text">Study IDs</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+<!--            <li class="active">-->
+<!--                <a href="zebra.php" target="_blank">-->
+<!--                    <span class="isw-print"></span><span class="text">Zebra Print</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!---->
+<!--            <li class="openable">-->
+<!--                <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <a href="info.php?id=5">-->
+<!--                            <span class="glyphicon glyphicon-list"></span><span class="text">Study IDs</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </li>-->
 
         <?php } ?>
     </ul>

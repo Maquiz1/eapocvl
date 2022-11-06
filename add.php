@@ -217,7 +217,7 @@ if ($user->isLoggedIn()) {
                             $user->createRecord('visit', array(
                                 'visit_name' => 'Day 0',
                                 'visit_code' => 'D0',
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('enrollment_date'),
                                 'visit_window' => 2,
                                 'status' => 1,
                                 'seq_no' => 0,
@@ -227,7 +227,7 @@ if ($user->isLoggedIn()) {
                             $user->createRecord('visit', array(
                                 'visit_name' => 'Month 6',
                                 'visit_code' => 'M6',
-                                'visit_date' => date('Y-m-d', strtotime("6 months", strtotime($enroll_date))),
+                                'expected_date' => date('Y-m-d', strtotime("6 months", strtotime($enroll_date))),
                                 'visit_window' => 2,
                                 'status' => 0,
                                 'seq_no' => 0,
@@ -237,7 +237,7 @@ if ($user->isLoggedIn()) {
                             $user->createRecord('visit', array(
                                 'visit_name' => 'Month 12',
                                 'visit_code' => 'M12',
-                                'visit_date' => date('Y-m-d', strtotime("12 months", strtotime($enroll_date))),
+                                'expected_date' => date('Y-m-d', strtotime("12 months", strtotime($enroll_date))),
                                 'visit_window' => 2,
                                 'status' => 0,
                                 'seq_no' => 0,

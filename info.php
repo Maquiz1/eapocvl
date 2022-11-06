@@ -1406,6 +1406,7 @@ if ($user->isLoggedIn()) {
                                                 <th width="5%">#</th>
                                                 <th width="15%">Visit Name</th>
                                                 <th width="15%">Visit Code</th>
+                                                <th width="15%">Expected Date</th>
                                                 <th width="15%">Visit Date</th>
                                                 <th width="10%">Status</th>
                                                 <th width="35%">Action</th>
@@ -1417,6 +1418,7 @@ if ($user->isLoggedIn()) {
                                                     <td><?=$x?></td>
                                                     <td> <?=$visit['visit_name'] ?></td>
                                                     <td> <?=$visit['visit_code'] ?></td>
+                                                    <td> <?=$visit['expected_date'] ?></td>
                                                     <td> <?=$visit['visit_date'] ?></td>
                                                     <td>
                                                         <?php if($visit['status']==1){?>
@@ -1426,9 +1428,49 @@ if ($user->isLoggedIn()) {
                                                         <?php }?>
                                                     </td>
                                                     <td>
-
+                                                        <?php if($visit['visit_code'] != 'D0'){?>
+                                                            <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit</a>
+                                                        <?php }?>
                                                     </td>
                                                 </tr>
+                                                <div class="modal fade" id="visit<?= $visit['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <form method="post">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                    <h4>Add Visit</h4>
+                                                                </div>
+                                                                <div class="modal-body modal-body-np">
+                                                                    <div class="row">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Visit Status</div>
+                                                                            <div class="col-md-9">
+                                                                                <select name="site_id" style="width: 100%;" required>
+                                                                                    <option value="">Select</option>
+                                                                                    <option value="1">Attended</option>
+                                                                                    <option value="2">Missed</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Date:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date"/> <span>Example: 2010-12-01</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dr"><span></span></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" name="id" value="<?=$visit['id'] ?>">
+                                                                    <input type="submit" name="add_visit" class="btn btn-warning" value="Save updates">
+                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <?php $x++;} ?>
                                             </tbody>
                                         </table>
