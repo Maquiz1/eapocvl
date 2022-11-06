@@ -47,7 +47,7 @@
 # CMake
 cmake-build-*/
 
-php/core
+php/core/init.php
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
