@@ -14,10 +14,10 @@ $noD = 0;
 $users = $override->getData('user');
 if ($user->isLoggedIn()) {
    if($user->data()->power == 1){
-       $screened = $override->getCount('clients', 'enrollment_status', 2);
+       $screened = $override->getCount('clients', 'status', 1);
        $enrolled = $override->getCount('clients', 'enrollment_status', 1);
    }else{
-       $screened = $override->countData('clients', 'enrollment_status', 2,'site_id', $user->data()->site_id);
+       $screened = $override->countData('clients', 'status', 1,'site_id', $user->data()->site_id);
        $enrolled = $override->countData('clients', 'enrollment_status', 1,'site_id', $user->data()->site_id);
    }
 } else {

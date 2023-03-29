@@ -191,6 +191,8 @@ if ($user->isLoggedIn()) {
                                 'dob' => Input::get('dob'),
                                 'age' => $age,
                                 'id_number' => Input::get('id_number'),
+                                'ctc_number' => Input::get('ctc_number'),
+                                'enrollment_id' => Input::get('enrollment_id'),
                                 'gender' => Input::get('gender'),
                                 'marital_status' => Input::get('marital_status'),
                                 'education_level' => Input::get('education_level'),
@@ -543,6 +545,20 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Hospital ID Number:</div>
                                         <div class="col-md-9">
                                             <input value="" type="text" name="id_number" id="id_number" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">CTC-ID Number:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="ctc_number" id="ctc_number" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Enrollment ID Number:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="enrollment_id" id="enrollment_id" />
                                         </div>
                                     </div>
 
