@@ -48,7 +48,7 @@ if ($user->data()->accessLevel == 1) {
                     </li>
                 </ul>
             </li>
-            <li class="openable">
+            <!-- <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
                 <ul>
                     <li>
@@ -62,7 +62,7 @@ if ($user->data()->accessLevel == 1) {
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
 
 <!--            <li class="active">-->
 <!--                <a href="zebra.php" target="_blank">-->
@@ -101,7 +101,7 @@ if ($user->data()->accessLevel == 1) {
                     </li>
                 </ul>
             </li>
-        <?php } else { ?>
+            <?php } ?>
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
                 <ul>
@@ -140,7 +140,6 @@ if ($user->data()->accessLevel == 1) {
 <!--                </ul>-->
 <!--            </li>-->
 
-        <?php } ?>
     </ul>
 
     <div class="dr"><span></span></div>
