@@ -179,7 +179,6 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                print_r($_POST);
                 try {
                     $attachment_file = Input::get('image');
                     if (!empty($_FILES['image']["tmp_name"])) {
@@ -208,13 +207,12 @@ if ($user->isLoggedIn()) {
                     }
                     if ($errorM == false) {
                         $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
-                        print_r($age);
                         $user->updateRecord('clients', array(
-                            'study_id' => Input::get('study_id'),
                             'participant_id' => Input::get('participant_id'),
+                            'study_id' => Input::get('study_id'),
                             'clinic_date' => Input::get('clinic_date'),
                             'firstname' => Input::get('firstname'),
-                            'midlename' => Input::get('midlename'),
+                            'middlename' => Input::get('middlename'),
                             'lastname' => Input::get('lastname'),
                             'dob' => Input::get('dob'),
                             'initials' => Input::get('initials'),
