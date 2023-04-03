@@ -97,6 +97,11 @@ if ($user->isLoggedIn()) {
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'User Deleted Successful';
+        } elseif (Input::get('delete_client')) {
+            $user->updateRecord('clients', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'User Deleted Successful';
         } elseif (Input::get('edit_study')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
@@ -174,6 +179,7 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 try {
                     $attachment_file = Input::get('image');
                     if (!empty($_FILES['image']["tmp_name"])) {
@@ -202,15 +208,20 @@ if ($user->isLoggedIn()) {
                     }
                     if ($errorM == false) {
                         $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
+                        print_r($age);
                         $user->updateRecord('clients', array(
+                            'study_id' => Input::get('study_id'),
                             'participant_id' => Input::get('participant_id'),
                             'clinic_date' => Input::get('clinic_date'),
                             'firstname' => Input::get('firstname'),
                             'midlename' => Input::get('midlename'),
                             'lastname' => Input::get('lastname'),
                             'dob' => Input::get('dob'),
+                            'initials' => Input::get('initials'),
                             'age' => $age,
                             'id_number' => Input::get('id_number'),
+                            'ctc_number' => Input::get('ctc_number'),
+                            'enrollment_id' => Input::get('enrollment_id'),
                             'gender' => Input::get('gender'),
                             'marital_status' => Input::get('marital_status'),
                             'education_level' => Input::get('education_level'),
@@ -1094,6 +1105,20 @@ if ($user->isLoggedIn()) {
                                                                         </div>
 
                                                                         <div class="row-form clearfix">
+                                                                            <div class="col-md-3">CTC-ID Number:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" disabled />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Enrollment ID Number:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" disabled />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
                                                                             <div class="col-md-3">Marital Status</div>
                                                                             <div class="col-md-9">
                                                                                 <select name="marital_status" style="width: 100%;" disabled>
@@ -1182,7 +1207,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row-form clearfix">
                                                                             <div class="col-md-3">Study</div>
                                                                             <div class="col-md-9">
-                                                                                <select name="position" style="width: 100%;" required>
+                                                                                <select name="study_id" style="width: 100%;" required>
                                                                                     <?php foreach ($override->getData('study') as $study) { ?>
                                                                                         <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
                                                                                     <?php } ?>
@@ -1262,6 +1287,20 @@ if ($user->isLoggedIn()) {
                                                                             <div class="col-md-3">Hospital ID:</div>
                                                                             <div class="col-md-9">
                                                                                 <input value="<?= $client['id_number'] ?>" class="validate[required]" type="text" name="id_number" id="id_number" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">CTC-ID Number:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Enrollment ID Number:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" />
                                                                             </div>
                                                                         </div>
 
@@ -1358,7 +1397,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                <input type="submit" name="delete_staff" value="Delete" class="btn btn-danger">
+                                                                <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>
                                                         </div>
@@ -1398,8 +1437,8 @@ if ($user->isLoggedIn()) {
                                         < </a>
                                             <?php for ($i = 1; $i <= $pages; $i++) { ?>
                                                 <a href="info.php?id=3&sid=&page=<?= $_GET['id'] ?>&page=<?= $i ?>" class="btn btn-default <?php if ($i == $_GET['page']) {
-                                                                                                                                            echo 'active';
-                                                                                                                                        } ?>"><?= $i ?></a>
+                                                                                                                                                echo 'active';
+                                                                                                                                            } ?>"><?= $i ?></a>
                                             <?php } ?>
                                             <a href="info.php?id=3&sid=&page=<?php if (($_GET['page'] + 1) <= $pages) {
                                                                                     echo $_GET['page'] + 1;
@@ -1595,8 +1634,8 @@ if ($user->isLoggedIn()) {
                                         < </a>
                                             <?php for ($i = 1; $i <= $pages; $i++) { ?>
                                                 <a href="info.php?id=5&page=<?= $_GET['id'] ?>&page=<?= $i ?>" class="btn btn-default <?php if ($i == $_GET['page']) {
-                                                                                                                                        echo 'active';
-                                                                                                                                    } ?>"><?= $i ?></a>
+                                                                                                                                            echo 'active';
+                                                                                                                                        } ?>"><?= $i ?></a>
                                             <?php } ?>
                                             <a href="info.php?id=5&page=<?php if (($_GET['page'] + 1) <= $pages) {
                                                                             echo $_GET['page'] + 1;
