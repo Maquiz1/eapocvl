@@ -229,6 +229,7 @@ if ($user->isLoggedIn()) {
                             'other_phone' => Input::get('other_phone'),
                             'street' => Input::get('street'),
                             'ward' => Input::get('ward'),
+                            'district' => Input::get('district'),
                             'block_no' => Input::get('block_no'),
                             'client_image' => $image,
                             'comments' => Input::get('comments'),
@@ -1356,6 +1357,10 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row-form clearfix">
                                                                             <div class="col-md-3">Ward:</div>
                                                                             <div class="col-md-9"><input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" required /></div>
+                                                                        </div>
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">District:</div>
+                                                                            <div class="col-md-9"><input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" required /></div>
                                                                         </div>
 
                                                                         <div class="row-form clearfix">

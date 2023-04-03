@@ -78,8 +78,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }
-        elseif (Input::get('add_position')) {
+        } elseif (Input::get('add_position')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
                     'required' => true,
@@ -97,8 +96,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }
-        elseif (Input::get('add_site')) {
+        } elseif (Input::get('add_site')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
                     'required' => true,
@@ -116,8 +114,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }
-        elseif (Input::get('add_client')) {
+        } elseif (Input::get('add_client')) {
             $validate = new validate();
             $validate = $validate->check($_POST, array(
                 'clinic_date' => array(
@@ -154,8 +151,7 @@ if ($user->isLoggedIn()) {
                             $attachment_file = $folderName . basename($_FILES['image']['name']);
                             if (@move_uploaded_file($_FILES['image']["tmp_name"], $attachment_file)) {
                                 $file = true;
-                            } else {
-                                {
+                            } else { {
                                     $errorM = true;
                                     $errorMessage = 'Your profile Picture Not Uploaded ,';
                                 }
@@ -163,24 +159,23 @@ if ($user->isLoggedIn()) {
                         } else {
                             $errorM = true;
                             $errorMessage = 'None supported file format';
-                        }//not supported format
-                    }else{
+                        } //not supported format
+                    } else {
                         $attachment_file = '';
                     }
-                    if($errorM == false){
-                        $chk=true;
+                    if ($errorM == false) {
+                        $chk = true;
                         $screening_id = $random->get_rand_alphanumeric(8);
-                        $check_screening=$override->get('clients','participant_id', $screening_id)[0];
-                        while($chk){
+                        $check_screening = $override->get('clients', 'participant_id', $screening_id)[0];
+                        while ($chk) {
                             $screening_id = strtoupper($random->get_rand_alphanumeric(8));
-                            if(!$check_screening=$override->get('clients','participant_id', $screening_id)){
-                                $chk=false;
+                            if (!$check_screening = $override->get('clients', 'participant_id', $screening_id)) {
+                                $chk = false;
                             }
-
                         }
-                        $age = $user->dateDiffYears(date('Y-m-d'),Input::get('dob'));
+                        $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
 
-                        if(Input::get('enrollment_status') == 1 and Input::get('enrollment_date')){
+                        if (Input::get('enrollment_status') == 1 and Input::get('enrollment_date')) {
                             $user->createRecord('clients', array(
                                 'participant_id' => $screening_id,
                                 'study_id' => '',
@@ -202,6 +197,7 @@ if ($user->isLoggedIn()) {
                                 'other_phone' => Input::get('other_phone'),
                                 'street' => Input::get('street'),
                                 'ward' => Input::get('ward'),
+                                'district' => Input::get('district'),
                                 'block_no' => Input::get('block_no'),
                                 'site_id' => $user->data()->site_id,
                                 'staff_id' => $user->data()->id,
@@ -247,8 +243,8 @@ if ($user->isLoggedIn()) {
                             ));
 
                             $successMessage = 'Client Added Successful';
-                        }else{
-                            $errorMessage= 'Error, please specify the enrollment data';
+                        } else {
+                            $errorMessage = 'Error, please specify the enrollment data';
                         }
                     }
                 } catch (Exception $e) {
@@ -494,7 +490,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Date:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date"/> <span>Example: 2010-12-01</span>
+                                            <input value="" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
                                     <div class="row-form clearfix">
@@ -519,7 +515,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Date of Birth:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[required,custom[date]]" type="text" name="dob" id="date"/> <span>Example: 2010-12-01</span>
+                                            <input value="" class="validate[required,custom[date]]" type="text" name="dob" id="date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
 
@@ -606,7 +602,7 @@ if ($user->isLoggedIn()) {
                                     </div>
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Relative's Phone Number:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="other_phone" id="phone"  /> <span>Example: 0700 000 111</span></div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="other_phone" id="phone" /> <span>Example: 0700 000 111</span></div>
                                     </div>
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Residence Street:</div>
@@ -618,8 +614,13 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row-form clearfix">
+                                        <div class="col-md-3">District:</div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="district" id="district" required /></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
                                         <div class="col-md-3">House Number:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="block_no" id="block_no"  /></div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="block_no" id="block_no" /></div>
                                     </div>
 
                                     <div class="row-form clearfix">
@@ -636,7 +637,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Enrollment Date:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[custom[date]]" type="text" name="enrollment_date" id="enrollment_date"/> <span>Example: 2010-12-01</span>
+                                            <input value="" class="validate[custom[date]]" type="text" name="enrollment_date" id="enrollment_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
 
@@ -682,14 +683,14 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Start Date:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[required,custom[date]]" type="text" name="start_date" id="start_date"/> <span>Example: 2010-12-01</span>
+                                            <input value="" class="validate[required,custom[date]]" type="text" name="start_date" id="start_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">End Date:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[required,custom[date]]" type="text" name="end_date" id="end_date"/> <span>Example: 2010-12-01</span>
+                                            <input value="" class="validate[required,custom[date]]" type="text" name="end_date" id="end_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
 
