@@ -32,7 +32,7 @@ if ($user->data()->accessLevel == 1) {
                 <span class="isw-grid"></span><span class="text">Dashboard</span>
             </a>
         </li>
-        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+        <?php if ($user->data()->accessLevel == 1) { ?>
             <li class="openable">
                 <a href="#"><span class="isw-user"></span><span class="text">Staff</span></a>
                 <ul>
