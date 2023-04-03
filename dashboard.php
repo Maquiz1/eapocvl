@@ -14,11 +14,11 @@ $noD = 0;
 $users = $override->getData('user');
 if ($user->isLoggedIn()) {
    if($user->data()->power == 1){
-       $screened = $override->getCount('clients', 'enrollment_status', 2);
-       $enrolled = $override->getCount('clients', 'enrollment_status', 1);
+       $screened = $override->getCount('clients', 'status', 1);
+       $enrolled = $override->getCount1('clients', 'enrollment_status', 1,'status', 1);
    }else{
-       $screened = $override->countData('clients', 'enrollment_status', 2,'site_id', $user->data()->site_id);
-       $enrolled = $override->countData('clients', 'enrollment_status', 1,'site_id', $user->data()->site_id);
+       $screened = $override->countData('clients', 'status', 1,'site_id', $user->data()->site_id);
+       $enrolled = $override->countData1('clients', 'enrollment_status',1,'status', 1,'site_id', $user->data()->site_id);
    }
 } else {
     Redirect::to('index.php');
@@ -56,11 +56,11 @@ if ($user->isLoggedIn()) {
 
                         <div class="wBlock red clearfix">
                             <div class="dSpace">
-                                <h3>Not Enrolled</h3>
+                                <h3>Registered</h3>
                                 <span class="mChartBar" sparkType="bar" sparkBarColor="white">
                                     <!--130,190,260,230,290,400,340,360,390-->
                                 </span>
-                                <a href="#">
+                                <a href="info.php?id=3">
                                     <span class="number"><?=$screened?></span>
                                 </a>
                             </div>
@@ -77,7 +77,7 @@ if ($user->isLoggedIn()) {
                                 <span class="mChartBar" sparkType="bar" sparkBarColor="white">
                                     <!--5,10,15,20,23,21,25,20,15,10,25,20,10-->
                                 </span>
-                                <a href="#">
+                                <a href="info.php?id=3">
                                     <span class="number"><?=$enrolled?></span>
                                 </a>
                             </div>
@@ -93,7 +93,7 @@ if ($user->isLoggedIn()) {
                                 <span class="mChartBar" sparkType="bar" sparkBarColor="white">
                                     <!--240,234,150,290,310,240,210,400,320,198,250,222,111,240,221,340,250,190-->
                                 </span>
-                                <a href="info.php?id=6">
+                                <a href="#">
                                     <span class="number">0</span>
                                 </a>
                             </div>
