@@ -134,7 +134,7 @@ if ($user->isLoggedIn()) {
                 ),
                 'phone_number' => array(
                     'required' => true,
-                    'unique' => 'clients',
+                    // 'unique' => 'clients',
                 ),
                 'enrollment_status' => array(
                     'required' => true,
