@@ -569,100 +569,156 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Date of Birth:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="dob" id="date" /> <span>Example: 2010-12-01</span>
+                                    <div class="row">
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Date of Birth</label>
+                                                    <input value="" class="validate[required,custom[date]]" type="text" name="dob" id="dob" /> <span>Example: 2010-12-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Recent Viral load(VL AT 6):</label>
+                                                    <input value="" type="text" name="recent_vl" id="recent_vl" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Recent Viral load DATE(VL AT 6)</label>
+                                                    <input value="" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Viral load at enrollment:</label>
+                                                    <input value="" type="text" name="vl" id="vl" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Recent Viral load(VL AT 6):</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="recent_vl" id="recent_vl" />
+                                    <div class="row">
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Viral load DATE</label>
+                                                    <input value="" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Initials:</label>
+                                                    <input value="" class="validate[required]" type="text" name="initials" id="initials" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <select name="gender" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Marital Status:</label>
+                                                    <select name="marital_status" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="Single">Single</option>
+                                                        <option value="Married">Married</option>
+                                                        <option value="Divorced">Divorced</option>
+                                                        <option value="Separated">Separated</option>
+                                                        <option value="Widower">Widower/Widow</option>
+                                                        <option value="Cohabit">Cohabit</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Recent Viral load DATE(VL AT 6):</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
-                                        </div>
-                                    </div>
+                                    <div class="row">
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Viral load at enrollment:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="vl" id="vl" />
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Education Level</label>
+                                                    <select name="education_level" style="width: 100%;" required>
+                                                        <option value="">select</option>
+                                                        <option value="Not attended school">Not attended school</option>
+                                                        <option value="Primary">Primary</option>
+                                                        <option value="Secondary">Secondary</option>
+                                                        <option value="Certificate">Certificate</option>
+                                                        <option value="Diploma">Diploma</option>
+                                                        <option value="Undergraduate degree">Undergraduate degree</option>
+                                                        <option value="Postgraduate degree">Postgraduate degree</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Viral load DATE:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Workplace/station site:</label>
+                                                    <div class="col-md-9"><input value="" class="" type="text" name="workplace" id="workplace" required />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Initials:</div>
-                                        <div class="col-md-9">
-                                            <input value="" class="validate[required]" type="text" name="initials" id="initials" />
-                                        </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Gender</div>
-                                        <div class="col-md-9">
-                                            <select name="gender" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                            </select>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Occupation</label>
+                                                    <input value="" class="" type="text" name="occupation" id="occupation" required />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Marital Status</div>
-                                        <div class="col-md-9">
-                                            <select name="marital_status" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="Single">Single</option>
-                                                <option value="Married">Married</option>
-                                                <option value="Divorced">Divorced</option>
-                                                <option value="Separated">Separated</option>
-                                                <option value="Widower">Widower/Widow</option>
-                                                <option value="Cohabit">Cohabit</option>
-                                            </select>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Phone Number:</label>
+                                                    <input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Education Level</div>
-                                        <div class="col-md-9">
-                                            <select name="education_level" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="Not attended school">Not attended school</option>
-                                                <option value="Primary">Primary</option>
-                                                <option value="Secondary">Secondary</option>
-                                                <option value="Certificate">Certificate</option>
-                                                <option value="Diploma">Diploma</option>
-                                                <option value="Undergraduate degree">Undergraduate degree</option>
-                                                <option value="Postgraduate degree">Postgraduate degree</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Workplace/station site:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="workplace" id="workplace" required /></div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Occupation:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="occupation" id="occupation" required /></div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Phone Number:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
                                     </div>
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Relative's Phone Number:</div>
