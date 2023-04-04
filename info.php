@@ -1456,31 +1456,96 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Relative's Phone Number:</div>
-                                                                            <div class="col-md-9"><input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" /> <span>Example: 0700 000 111</span></div>
-                                                                        </div>
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Residence Street:</div>
-                                                                            <div class="col-md-9"><input value="<?= $client['street'] ?>" class="" type="text" name="street" id="street" required /></div>
-                                                                        </div>
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Ward:</div>
-                                                                            <div class="col-md-9"><input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" required /></div>
-                                                                        </div>
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">District:</div>
-                                                                            <div class="col-md-9"><input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" required /></div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Relative's Phone Number:</label>
+                                                                                        <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" /> <span>Example: 0700 000 111</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Residence Street::</label>
+                                                                                        <input value="<?= $client['street'] ?>" class="" type="text" name="street" id="street" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Ward</label>
+                                                                                        <input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>District:</label>
+                                                                                        <input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
 
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">House Number:</div>
-                                                                            <div class="col-md-9"><input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" /></div>
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>House Number:</label>
+                                                                                        <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Status::</label>
+                                                                                        <select name="enrollment_status" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                            <option value="1">Enrolled</option>
+                                                                                            <option value="2">Not Enrolled</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Date:</label>
+                                                                                        <input value="<?= $client['enrollment_date'] ?>" class="validate[custom[date]]" type="text" name="enrollment_date" id="enrollment_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Comments:</label>
+                                                                                        <textarea name="comments" rows="4"><?= $client['comments'] ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Comments:</div>
-                                                                            <div class="col-md-9"><textarea name="comments" rows="4"><?= $client['comments'] ?></textarea> </div>
-                                                                        </div>
+
                                                                     </div>
                                                                     <div class="dr"><span></span></div>
                                                                 </div>
