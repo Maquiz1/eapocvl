@@ -481,53 +481,91 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" enctype="multipart/form-data" method="post">
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Study</div>
-                                        <div class="col-md-9">
-                                            <select name="position" style="width: 100%;" required>
-                                                <?php foreach ($override->getData('study') as $study) { ?>
-                                                    <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
-                                                <?php } ?>
-                                            </select>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Study</label>
+                                                    <select name="position" style="width: 100%;" required>
+                                                        <?php foreach ($override->getData('study') as $study) { ?>
+                                                            <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Date:</div>
-                                        <div class="col-md-9">
-                                            <input value="" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" /> <span>Example: 2010-12-01</span>
-                                        </div>
-                                    </div>                                  
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Enrollment ID Number:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="enrollment_id" id="enrollment_id" />
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Date of Entry</label>
+                                                    <input value="" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" /> <span>Example: 2010-12-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Enrollment ID</label>
+                                                    <input value="" type="text" name="enrollment_id" id="enrollment_id" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Hospital ID Number</label>
+                                                    <input value="" type="text" name="id_number" id="id_number" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">CTC-ID Number:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="ctc_number" id="ctc_number" />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>CTC-ID Number:</label>
+                                                    <input value="" type="text" name="ctc_number" id="ctc_number" />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">First Name:</div>
-                                        <div class="col-md-9">
-                                            <input value="" class="validate[required]" type="text" name="firstname" id="firstname" />
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>First Name</label>
+                                                    <input value="" class="validate[required]" type="text" name="firstname" id="firstname" />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Middle Name:</div>
-                                        <div class="col-md-9">
-                                            <input value="" class="validate[required]" type="text" name="middlename" id="middlename" />
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Middle Name</label>
+                                                    <input value="" class="validate[required]" type="text" name="middlename" id="middlename" />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Last Name:</div>
-                                        <div class="col-md-9">
-                                            <input value="" class="validate[required]" type="text" name="lastname" id="lastname" />
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Last Name</label>
+                                                    <input value="" class="validate[required]" type="text" name="lastname" id="lastname" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -541,21 +579,21 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Recent Viral load(VL AT 6):</div>
                                         <div class="col-md-9">
-                                            <input value="" type="text" name="recent_vl" id="recent_vl" /> 
+                                            <input value="" type="text" name="recent_vl" id="recent_vl" />
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Recent Viral load DATE(VL AT 6):</div>
                                         <div class="col-md-9">
-                                            <input value=""  type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
+                                            <input value="" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Viral load at enrollment:</div>
                                         <div class="col-md-9">
-                                            <input value="" type="text" name="vl" id="vl" /> 
+                                            <input value="" type="text" name="vl" id="vl" />
                                         </div>
                                     </div>
 
@@ -582,7 +620,7 @@ if ($user->isLoggedIn()) {
                                                 <option value="female">Female</option>
                                             </select>
                                         </div>
-                                    </div>                                    
+                                    </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Marital Status</div>
