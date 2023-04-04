@@ -977,21 +977,24 @@ if ($user->isLoggedIn()) {
                                             <th><input type="checkbox" name="checkall" /></th>
                                             <td width="20">#</td>
                                             <th width="40">Picture</th>
-                                            <th width="20%">Study id</th>
-                                            <th width="20%">DATE AT 6</th>
-                                            <th width="20%">VL AT 6</th>
-                                            <th width="20%">DATE AT Enrollment</th>
-                                            <th width="20%">VL AT Enrollment</th>
-                                            <th width="20%">Study id</th>
-                                            <th width="10%">Name</th>
-                                            <th width="10%">Gender</th>
-                                            <th width="10%">Age</th>
+                                            <th width="4%">Study id</th>
+                                            <th width="4%">Enrollment id</th>
+                                            <th width="8%">VL AT 6</th>
+                                            <th width="8%">DATE AT 6</th>
+                                            <th width="8%">VL AT Enrollment</th>
+                                            <th width="8%">DATE AT Enrollment</th>
+                                            <th width="8%">Site</th>
+                                            <th width="8%">Name</th>
+                                            <th width="8%">Gender</th>
+                                            <th width="8%">Age</th>
                                             <th width="40%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $x = 1;
-                                        foreach ($clients as $client) { ?>
+                                        foreach ($clients as $client) {
+                                            $site = $override->getData2('site', 'id', $client['site_id'])[0];
+                                            ?>
                                             <tr>
                                                 <td><input type="checkbox" name="checkbox" /></td>
                                                 <td><?= $x ?></td>
@@ -1004,6 +1007,12 @@ if ($user->isLoggedIn()) {
                                                     <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?= $img ?>" width="90" height="90" class="" /></a>
                                                 </td>
                                                 <td><?= $client['study_id'] ?></td>
+                                                <td><?= $client['enrollment_id'] ?></td>
+                                                <td><?= $client['recent_vl'] ?></td>
+                                                <td><?= $client['recent_vl_date'] ?></td>
+                                                <td><?= $client['vl'] ?></td>
+                                                <td><?= $client['vl_date'] ?></td>
+                                                <td><?= $site['name'] ?></td>
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
                                                 <td><?= $client['gender'] ?></td>
                                                 <td><?= $client['age'] ?></td>
