@@ -994,7 +994,7 @@ if ($user->isLoggedIn()) {
                                         <?php $x = 1;
                                         foreach ($clients as $client) {
                                             $site = $override->getData2('site', 'id', $client['site_id'])[0];
-                                            ?>
+                                        ?>
                                             <tr>
                                                 <td><input type="checkbox" name="checkbox" /></td>
                                                 <td><?= $x ?></td>
