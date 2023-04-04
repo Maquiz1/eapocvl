@@ -496,7 +496,22 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-9">
                                             <input value="" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" /> <span>Example: 2010-12-01</span>
                                         </div>
+                                    </div>                                  
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Enrollment ID Number:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="enrollment_id" id="enrollment_id" />
+                                        </div>
                                     </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">CTC-ID Number:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="ctc_number" id="ctc_number" />
+                                        </div>
+                                    </div>
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">First Name:</div>
                                         <div class="col-md-9">
@@ -524,14 +539,14 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row-form clearfix">
-                                        <div class="col-md-3">Recent Viral load:</div>
+                                        <div class="col-md-3">Recent Viral load(VL AT 6):</div>
                                         <div class="col-md-9">
                                             <input value="" type="text" name="recent_vl" id="recent_vl" /> 
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
-                                        <div class="col-md-3">Recent Viral load DATE:</div>
+                                        <div class="col-md-3">Recent Viral load DATE(VL AT 6):</div>
                                         <div class="col-md-9">
                                             <input value=""  type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
                                         </div>
@@ -567,28 +582,7 @@ if ($user->isLoggedIn()) {
                                                 <option value="female">Female</option>
                                             </select>
                                         </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Hospital ID Number:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="id_number" id="id_number" />
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">CTC-ID Number:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="ctc_number" id="ctc_number" />
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Enrollment ID Number:</div>
-                                        <div class="col-md-9">
-                                            <input value="" type="text" name="enrollment_id" id="enrollment_id" />
-                                        </div>
-                                    </div>
+                                    </div>                                    
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Marital Status</div>

@@ -156,9 +156,6 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('edit_client')) {
             $validate = $validate->check($_POST, array(
-                'participant_id' => array(
-                    'required' => true,
-                ),
                 'clinic_date' => array(
                     'required' => true,
                 ),
@@ -977,8 +974,7 @@ if ($user->isLoggedIn()) {
                                             <th><input type="checkbox" name="checkall" /></th>
                                             <td width="20">#</td>
                                             <th width="40">Picture</th>
-                                            <th width="4%">Study id</th>
-                                            <th width="4%">Enrollment id</th>
+                                            <th width="8%">Enrollment id</th>
                                             <th width="8%">VL AT 6</th>
                                             <th width="8%">DATE AT 6</th>
                                             <th width="8%">VL AT Enrollment</th>
@@ -1006,7 +1002,6 @@ if ($user->isLoggedIn()) {
                                                     } ?>
                                                     <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?= $img ?>" width="90" height="90" class="" /></a>
                                                 </td>
-                                                <td><?= $client['study_id'] ?></td>
                                                 <td><?= $client['enrollment_id'] ?></td>
                                                 <td><?= $client['recent_vl'] ?></td>
                                                 <td><?= $client['recent_vl_date'] ?></td>
@@ -1232,11 +1227,27 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                         <div class="row-form clearfix">
-                                                                            <div class="col-md-3">ParticipantID:</div>
+                                                                            <div class="col-md-3">Enrollment ID:</div>
                                                                             <div class="col-md-9">
-                                                                                <input value="<?= $client['participant_id'] ?>" class="validate[required]" type="text" name="participant_id" id="participant_id" />
+                                                                                <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" />
                                                                             </div>
                                                                         </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Hospital ID Number:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">CTC-ID Number:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" />
+                                                                            </div>
+                                                                        </div>
+
+
                                                                         <div class="row-form clearfix">
                                                                             <div class="col-md-3">Date:</div>
                                                                             <div class="col-md-9">
@@ -1270,14 +1281,14 @@ if ($user->isLoggedIn()) {
                                                                         </div>
 
                                                                         <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Recent Viral load:</div>
+                                                                            <div class="col-md-3">Recent Viral load(VL AT 6):</div>
                                                                             <div class="col-md-9">
                                                                                 <input value="<?= $client['recent_vl'] ?>" type="text" name="recent_vl" id="recent_vl" />
                                                                             </div>
                                                                         </div>
 
                                                                         <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Recent Viral load DATE:</div>
+                                                                            <div class="col-md-3">Recent Viral load DATE(VL AT 6):</div>
                                                                             <div class="col-md-9">
                                                                                 <input value="<?= $client['recent_vl_date'] ?>" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
                                                                             </div>
@@ -1332,20 +1343,6 @@ if ($user->isLoggedIn()) {
                                                                             <div class="col-md-3">Hospital ID:</div>
                                                                             <div class="col-md-9">
                                                                                 <input value="<?= $client['id_number'] ?>" class="validate[required]" type="text" name="id_number" id="id_number" />
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">CTC-ID Number:</div>
-                                                                            <div class="col-md-9">
-                                                                                <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" />
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Enrollment ID Number:</div>
-                                                                            <div class="col-md-9">
-                                                                                <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" />
                                                                             </div>
                                                                         </div>
 
