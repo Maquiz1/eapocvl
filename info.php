@@ -217,6 +217,10 @@ if ($user->isLoggedIn()) {
                             'dob' => Input::get('dob'),
                             'initials' => Input::get('initials'),
                             'age' => $age,
+                            'vl' => Input::get('vl'),
+                            'vl_date' => Input::get('vl_date'),
+                            'recent_vl' => Input::get('recent_vl'),
+                            'recent_vl_date' => Input::get('recent_vl_date'),
                             'id_number' => Input::get('id_number'),
                             'ctc_number' => Input::get('ctc_number'),
                             'enrollment_id' => Input::get('enrollment_id'),
@@ -973,7 +977,12 @@ if ($user->isLoggedIn()) {
                                             <th><input type="checkbox" name="checkall" /></th>
                                             <td width="20">#</td>
                                             <th width="40">Picture</th>
-                                            <th width="20%">ParticipantID</th>
+                                            <th width="20%">Study id</th>
+                                            <th width="20%">DATE AT 6</th>
+                                            <th width="20%">VL AT 6</th>
+                                            <th width="20%">DATE AT Enrollment</th>
+                                            <th width="20%">VL AT Enrollment</th>
+                                            <th width="20%">Study id</th>
                                             <th width="10%">Name</th>
                                             <th width="10%">Gender</th>
                                             <th width="10%">Age</th>
@@ -994,7 +1003,7 @@ if ($user->isLoggedIn()) {
                                                     } ?>
                                                     <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?= $img ?>" width="90" height="90" class="" /></a>
                                                 </td>
-                                                <td><?= $client['participant_id'] ?></td>
+                                                <td><?= $client['study_id'] ?></td>
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
                                                 <td><?= $client['gender'] ?></td>
                                                 <td><?= $client['age'] ?></td>
@@ -1248,6 +1257,34 @@ if ($user->isLoggedIn()) {
                                                                             <div class="col-md-3">Date of Birth:</div>
                                                                             <div class="col-md-9">
                                                                                 <input value="<?= $client['dob'] ?>" class="validate[required,custom[date]]" type="text" name="dob" id="dob" /> <span>Example: 2010-12-01</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Recent Viral load:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['recent_vl'] ?>" type="text" name="recent_vl" id="recent_vl" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Recent Viral load DATE:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['recent_vl_date'] ?>" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Viral load at enrollment:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['vl'] ?>" type="text" name="vl" id="vl" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Viral load DATE:</div>
+                                                                            <div class="col-md-9">
+                                                                                <input value="<?= $client['vl_date'] ?>" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
                                                                             </div>
                                                                         </div>
 

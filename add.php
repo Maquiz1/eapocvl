@@ -185,6 +185,10 @@ if ($user->isLoggedIn()) {
                                 'lastname' => Input::get('lastname'),
                                 'dob' => Input::get('dob'),
                                 'age' => $age,
+                                'recent_vl' => Input::get('recent_vl'),
+                                'recent_vl_date' => Input::get('recent_vl_date'),
+                                'vl' => Input::get('vl'),
+                                'vl_date' => Input::get('vl_date'),
                                 'id_number' => Input::get('id_number'),
                                 'ctc_number' => Input::get('ctc_number'),
                                 'enrollment_id' => Input::get('enrollment_id'),
@@ -515,7 +519,35 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Date of Birth:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[required,custom[date]]" type="text" name="dob" id="date" /> <span>Example: 2010-12-01</span>
+                                            <input value="" type="text" name="dob" id="date" /> <span>Example: 2010-12-01</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Recent Viral load:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="recent_vl" id="recent_vl" /> 
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Recent Viral load DATE:</div>
+                                        <div class="col-md-9">
+                                            <input value=""  type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Viral load at enrollment:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="vl" id="vl" /> 
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Viral load DATE:</div>
+                                        <div class="col-md-9">
+                                            <input value="" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
 
