@@ -96,6 +96,42 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('add_access_level')) {
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('access_level', array(
+                        'name' => Input::get('name'),
+                    ));
+                    $successMessage = 'Access level Successful Added';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_power')) {
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('power', array(
+                        'name' => Input::get('name'),
+                    ));
+                    $successMessage = 'Power Successful Added';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('add_site')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
@@ -585,8 +621,9 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Recent Viral load(VL AT 6):</label>
+                                                    <label>Recent Viral Load (within 6 months):</label>
                                                     <input value="" type="text" name="recent_vl" id="recent_vl" />
+                                                    <span>copies/ml</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -595,7 +632,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Recent Viral load DATE(VL AT 6)</label>
+                                                    <label>Recent DATE (within 6 months)</label>
                                                     <input value="" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
                                                 </div>
                                             </div>
@@ -605,8 +642,9 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Viral load at enrollment:</label>
+                                                    <label>Viral Load (AT Enrollment):</label>
                                                     <input value="" type="text" name="vl" id="vl" />
+                                                    <span>(copies/ml)</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -618,7 +656,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Viral load DATE</label>
+                                                    <label>Viral Load DATE(At Enrollment)</label>
                                                     <input value="" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
                                                 </div>
                                             </div>
@@ -912,9 +950,49 @@ if ($user->isLoggedIn()) {
 
                         </div>
                     <?php } elseif ($_GET['id'] == 8) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Add Access level</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Name:</div>
+                                        <div class="col-md-9">
+                                            <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                        </div>
+                                    </div>
 
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_access_level" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
                     <?php } elseif ($_GET['id'] == 9) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Add Power</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Name:</div>
+                                        <div class="col-md-9">
+                                            <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                        </div>
+                                    </div>
 
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_power" value="Submit" class="btn btn-default">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     <?php } elseif ($_GET['id'] == 10) { ?>
 
                     <?php } elseif ($_GET['id'] == 11) { ?>
