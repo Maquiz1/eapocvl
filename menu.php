@@ -106,6 +106,33 @@ if ($user->data()->accessLevel == 1) {
                 </li>
             </ul>
         </li>
+        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+        <li class="openable">
+            <a href="#"><span class="isw-users"></span><span class="text">Summary Report</span></a>
+            <ul>
+                <li>
+                    <a href="info.php?id=6">
+                        <span class="glyphicon glyphicon-user"></span><span class="text">Suppressed Viral Load Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="info.php?id=7">
+                    <span class="glyphicon glyphicon-user"></span><span class="text">Failed Viral Load Test Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="info.php?id=8">
+                    <span class="glyphicon glyphicon-user"></span><span class="text">Dropped Clients</span>
+                    </a>
+                </li>
+                <li class="active">
+                <a href="info.php?id=9" target="_blank">
+                    <span class="isw-download"></span><span class="text">Download Data</span>
+                </a>
+            </li>
+            </ul>
+        </li>
+        <?php } ?>
     </ul>
 
     <div class="dr"><span></span></div>

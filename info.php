@@ -481,6 +481,37 @@ if ($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         }
+
+        if($_GET['id'] == 9){
+            $data = null;
+            $filename = null;
+            if(Input::get('clients')){
+                $data = $override->getData('clients');
+                $filename = 'Clients';
+            }elseif (Input::get('visits')){
+                $data = $override->getData('visit');
+                $filename = 'Visits';
+            }elseif (Input::get('visits')){
+                $data = $override->getData('visit');
+                $filename = 'Visits';
+            }elseif (Input::get('lab')){
+                $data = $override->getData('lab');
+                $filename = 'Laboratory Results';
+            }
+            elseif (Input::get('study_id')){
+                $data = $override->getData('study_id');
+                $filename = 'Study IDs';
+            }
+            elseif (Input::get('sites')){
+                $data = $override->getData('site');
+                $filename = 'Sites';
+            }
+            elseif (Input::get('screening')){
+                $data = $override->getData('screening');
+                $filename = 'Screening';
+            }
+            $user->exportData($data, $filename);
+        }
     }
 } else {
     Redirect::to('index.php');
@@ -1204,8 +1235,8 @@ if ($user->isLoggedIn()) {
                                             <th width="8%">Enrollment id</th>
                                             <th width="8%">Recent Viral Load within 6 months (copies/ml)</th>
                                             <th width="8%">Recent DATE (within 6 months)<span></span></th>
-                                            <th width="8%">Viral Load (At Enrollment)</th>
-                                            <th width="8%">Viral Load DATE(At Enrollment)(copies/ml)</th>
+                                            <th width="8%">Viral Load (At Enrollment)(copies/ml)</th>
+                                            <th width="8%">Viral Load DATE(At Enrollment)</th>
                                             <th width="8%">Site</th>
                                             <th width="8%">Name</th>
                                             <th width="8%">Gender</th>
@@ -1234,9 +1265,9 @@ if ($user->isLoggedIn()) {
                                                 </td>
                                                 <td><?= $client['enrollment_date'] ?></td>
                                                 <td><?= $client['enrollment_id'] ?></td>
-                                                <td><?= $client['recent_vl'] ?></td>
+                                                <td><?= $client['recent_vl'] ?><br><br><span>(copies/ml)</span></td>
                                                 <td><?= $client['recent_vl_date'] ?></td>
-                                                <td><?= $client['vl'] ?></td>
+                                                <td><?= $client['vl'] ?><br><br><span>(copies/ml)</span></td>
                                                 <td><?= $client['vl_date'] ?></td>
                                                 <td><?= $site['name'] ?></td>
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
@@ -2234,11 +2265,1910 @@ if ($user->isLoggedIn()) {
                             </div>
                         </div>
                     <?php } elseif ($_GET['id'] == 6) { ?>
+                        <div class="col-md-12">
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2) { ?>
+                                <div class="head clearfix">
+                                    <div class="isw-ok"></div>
+                                    <h1>Search by Site</h1>
+                                </div>
+                                <div class="block-fluid">
+                                    <form id="validation" method="post">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-1">Site:</div>
+                                            <div class="col-md-4">
+                                                <select name="site" required>
+                                                    <option value="">Select Site</option>
+                                                    <?php foreach ($override->getData('site') as $site) { ?>
+                                                        <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="submit" name="search_by_site" value="Search" class="btn btn-info">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            <?php } ?>
+                            <div class="head clearfix">
+                                <div class="isw-grid"></div>
+                                <h1>List of Clients Suppressed Viral Loads</h1>
+                                <ul class="buttons">
+                                    <li><a href="#" class="isw-download"></a></li>
+                                    <li><a href="#" class="isw-attachment"></a></li>
+                                    <li>
+                                        <a href="#" class="isw-settings"></a>
+                                        <ul class="dd-list">
+                                            <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                            <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                            <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2) {
+                                if ($_GET['sid'] != null) {
+                                    $pagNum = 0;
+                                    $pagNum = $override->countData3('clients', 'vl',50,'status', 1, 'site_id', $_GET['sid']);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+                                    $clients = $override->getWithLimit3('clients', 'vl',50,'site_id', $_GET['sid'], 'status', 1, $page, $numRec);
+                                } else {
+                                    $pagNum = 0;
+                                    $pagNum = $override->countData2('clients', 'vl',50,'status', 1);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+                                    $clients = $override->getWithLimit3('clients', 'vl', 50, 'status', 1, $page, $numRec);
+                                }
+                            } else {
+                                $pagNum = 0;
+                                $pagNum = $override->countData3('clients', 'vl',50, 'site_id', $user->data()->site_id, 'status', 1);
+                                $pages = ceil($pagNum / $numRec);
+                                if (!$_GET['page'] || $_GET['page'] == 1) {
+                                    $page = 0;
+                                } else {
+                                    $page = ($_GET['page'] * $numRec) - $numRec;
+                                }
+                                $clients = $override->getWithLimit4('clients', 'vl',50,'site_id', $user->data()->site_id, 'status', 1, $page, $numRec);
+                            } ?>
+                            <div class="block-fluid">
+                                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="checkall" /></th>
+                                            <td width="20">#</td>
+                                            <th width="40">Picture</th>
+                                            <th width="40">Enrollment Date</th>
+                                            <th width="8%">Enrollment id</th>
+                                            <th width="8%">Recent Viral Load within 6 months (copies/ml)</th>
+                                            <th width="8%">Recent DATE (within 6 months)<span></span></th>
+                                            <th width="8%">Viral Load (At Enrollment)(copies/ml)</th>
+                                            <th width="8%">Viral Load DATE(At Enrollment)</th>
+                                            <th width="8%">Site</th>
+                                            <th width="8%">Name</th>
+                                            <th width="8%">Gender</th>
+                                            <th width="8%">Age</th>
+                                            <th width="8%">Staff</th>
+                                            <th width="40%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $x = 1;
+                                        foreach ($clients as $client) {
+                                            $site = $override->getData2('site', 'id', $client['site_id'])[0];
+                                            $staff = $override->getData2('user', 'id', $client['staff_id'])[0];
+                                        ?>
+                                            <tr>
+                                                <td><input type="checkbox" name="checkbox" /></td>
+                                                <td><?= $x ?></td>
+                                                <td width="100">
+                                                    <?php if ($client['client_image'] != '' || is_null($client['client_image'])) {
+                                                        $img = $client['client_image'];
+                                                    } else {
+                                                        $img = 'img/users/blank.png';
+                                                    } ?>
+                                                    <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?= $img ?>" width="90" height="90" class="" /></a>
+                                                </td>
+                                                <td><?= $client['enrollment_date'] ?></td>
+                                                <td><?= $client['enrollment_id'] ?></td>
+                                                <td><?= $client['recent_vl'] ?><br><br><span>(copies/ml)</span></td>
+                                                <td><?= $client['recent_vl_date'] ?></td>
+                                                <td><?= $client['vl'] ?><br><br><span>(copies/ml)</span></td>
+                                                <td><?= $client['vl_date'] ?></td>
+                                                <td><?= $site['name'] ?></td>
+                                                <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
+                                                <td><?= $client['gender'] ?></td>
+                                                <td><?= $client['age'] ?></td>
+                                                <td><?= $staff['username'] ?></td>
+                                                <td>
+                                                    <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
+
+                                                    <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                                        <a href="#client<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a>
+                                                    <?php } ?>
+
+                                                    <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                        <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                    <?php } ?>
+                                                    <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Schedule</a>
+                                                </td>
+
+                                            </tr>
+                                            <div class="modal fade" id="clientView<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Edit Client View</h4>
+                                                            </div>
+                                                            <div class="modal-body modal-body-np">
+                                                                <div class="row">
+                                                                    <div class="block-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Study</label>
+                                                                                        <select name="position" style="width: 100%;" disabled>
+                                                                                            <?php foreach ($override->getData('study') as $study) { ?>
+                                                                                                <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                                                            <?php } ?>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Entry</label>
+                                                                                        <input value="<?= $client['clinic_date'] ?>" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment ID</label>
+                                                                                        <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Hospital ID Number</label>
+                                                                                        <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>CTC-ID Number:</label>
+                                                                                        <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>First Name</label>
+                                                                                        <input value="<?= $client['firstname'] ?>" type="text" name="firstname" id="firstname" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Middle Name</label>
+                                                                                        <input value="<?= $client['middlename'] ?>" type="text" name="middlename" id="middlename" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Last Name</label>
+                                                                                        <input value="<?= $client['lastname'] ?>" type="text" name="lastname" id="lastname" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Birth</label>
+                                                                                        <input value="<?= $client['dob'] ?>" type="text" name="dob" id="dob" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent Viral Load (within 6 months):</label>
+                                                                                        <input value="<?= $client['recent_vl'] ?>" type="text" name="recent_vl" id="recent_vl" disabled />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent DATE (within 6 months)</label>
+                                                                                        <input value="<?= $client['recent_vl_date'] ?>" type="text" name="recent_vl_date" id="recent_vl_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load (AT Enrollment):</label>
+                                                                                        <input value="<?= $client['vl'] ?>" type="text" name="vl" id="vl" disabled />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load DATE(At Enrollment)</label>
+                                                                                        <input value="<?= $client['vl_date'] ?>" type="text" name="vl_date" id="vl_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Initials:</label>
+                                                                                        <input value="<?= $client['initials'] ?>" type="text" name="initials" id="initials" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Gender</label>
+                                                                                        <select name="gender" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['gender'] ?>"><?= $client['gender'] ?></option>
+                                                                                            <option value="male">Male</option>
+                                                                                            <option value="female">Female</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Marital Status:</label>
+                                                                                        <select name="marital_status" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['marital_status'] ?>"><?= $client['marital_status'] ?></option>
+                                                                                            <option value="Single">Single</option>
+                                                                                            <option value="Married">Married</option>
+                                                                                            <option value="Divorced">Divorced</option>
+                                                                                            <option value="Separated">Separated</option>
+                                                                                            <option value="Widower">Widower/Widow</option>
+                                                                                            <option value="Cohabit">Cohabit</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Education Level</label>
+                                                                                        <select name="education_level" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['education_level'] ?>"><?= $client['education_level'] ?></option>
+                                                                                            <option value="Not attended school">Not attended school</option>
+                                                                                            <option value="Primary">Primary</option>
+                                                                                            <option value="Secondary">Secondary</option>
+                                                                                            <option value="Certificate">Certificate</option>
+                                                                                            <option value="Diploma">Diploma</option>
+                                                                                            <option value="Undergraduate degree">Undergraduate degree</option>
+                                                                                            <option value="Postgraduate degree">Postgraduate degree</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Workplace/station site:</label>
+                                                                                        <input value="<?= $client['workplace'] ?>" class="" type="text" name="workplace" id="workplace" disabled />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Occupation</label>
+                                                                                        <input value="<?= $client['occupation'] ?>" class="" type="text" name="occupation" id="occupation" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Phone Number:</label>
+                                                                                        <input value="<?= $client['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" disabled /> <span>Example: 0700 000 111</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Relative's Phone Number:</label>
+                                                                                        <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" disabled /> <span>Example: 0700 000 111</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Residence Street::</label>
+                                                                                        <input value="<?= $client['street'] ?>" class="" type="text" name="street" id="street" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Ward</label>
+                                                                                        <input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>District:</label>
+                                                                                        <input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>House Number:</label>
+                                                                                        <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Status::</label>
+                                                                                        <select name="enrollment_status" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                            <option value="1">Enrolled</option>
+                                                                                            <option value="2">Not Enrolled</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Date:</label>
+                                                                                        <input value="<?= $client['enrollment_date'] ?>" type="text" name="enrollment_date" id="enrollment_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Comments:</label>
+                                                                                        <textarea name="comments" rows="4"><?= $client['comments'] ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="dr"><span></span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="client<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form id="validation" enctype="multipart/form-data" method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Edit Client Info</h4>
+                                                            </div>
+                                                            <div class="modal-body modal-body-np">
+                                                                <div class="row">
+                                                                    <div class="block-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Study</label>
+                                                                                        <select name="position" style="width: 100%;" required>
+                                                                                            <?php foreach ($override->getData('study') as $study) { ?>
+                                                                                                <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                                                            <?php } ?>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Entry</label>
+                                                                                        <input value="<?= $client['clinic_date'] ?>" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment ID</label>
+                                                                                        <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Hospital ID Number</label>
+                                                                                        <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>CTC-ID Number:</label>
+                                                                                        <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>First Name</label>
+                                                                                        <input value="<?= $client['firstname'] ?>" class="validate[required]" type="text" name="firstname" id="firstname" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Middle Name</label>
+                                                                                        <input value="<?= $client['middlename'] ?>" class="validate[required]" type="text" name="middlename" id="middlename" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Last Name</label>
+                                                                                        <input value="<?= $client['lastname'] ?>" class="validate[required]" type="text" name="lastname" id="lastname" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Birth</label>
+                                                                                        <input value="<?= $client['dob'] ?>" class="validate[required,custom[date]]" type="text" name="dob" id="dob" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent Viral Load (within 6 months):</label>
+                                                                                        <input value="<?= $client['recent_vl'] ?>" type="text" name="recent_vl" id="recent_vl" />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent DATE (within 6 months)</label>
+                                                                                        <input value="<?= $client['recent_vl_date'] ?>" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load (AT Enrollment):</label>
+                                                                                        <input value="<?= $client['vl'] ?>" type="text" name="vl" id="vl" />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load DATE(At Enrollment)</label>
+                                                                                        <input value="<?= $client['vl_date'] ?>" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Initials:</label>
+                                                                                        <input value="<?= $client['initials'] ?>" class="validate[required]" type="text" name="initials" id="initials" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Gender</label>
+                                                                                        <select name="gender" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['gender'] ?>"><?= $client['gender'] ?></option>
+                                                                                            <option value="male">Male</option>
+                                                                                            <option value="female">Female</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Marital Status:</label>
+                                                                                        <select name="marital_status" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['marital_status'] ?>"><?= $client['marital_status'] ?></option>
+                                                                                            <option value="Single">Single</option>
+                                                                                            <option value="Married">Married</option>
+                                                                                            <option value="Divorced">Divorced</option>
+                                                                                            <option value="Separated">Separated</option>
+                                                                                            <option value="Widower">Widower/Widow</option>
+                                                                                            <option value="Cohabit">Cohabit</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Education Level</label>
+                                                                                        <select name="education_level" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['education_level'] ?>"><?= $client['education_level'] ?></option>
+                                                                                            <option value="Not attended school">Not attended school</option>
+                                                                                            <option value="Primary">Primary</option>
+                                                                                            <option value="Secondary">Secondary</option>
+                                                                                            <option value="Certificate">Certificate</option>
+                                                                                            <option value="Diploma">Diploma</option>
+                                                                                            <option value="Undergraduate degree">Undergraduate degree</option>
+                                                                                            <option value="Postgraduate degree">Postgraduate degree</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Workplace/station site:</label>
+                                                                                        <input value="<?= $client['workplace'] ?>" class="" type="text" name="workplace" id="workplace" required />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Occupation</label>
+                                                                                        <input value="<?= $client['occupation'] ?>" class="" type="text" name="occupation" id="occupation" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Phone Number:</label>
+                                                                                        <input value="<?= $client['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Relative's Phone Number:</label>
+                                                                                        <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" /> <span>Example: 0700 000 111</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Residence Street::</label>
+                                                                                        <input value="<?= $client['street'] ?>" class="" type="text" name="street" id="street" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Ward</label>
+                                                                                        <input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>District:</label>
+                                                                                        <input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>House Number:</label>
+                                                                                        <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Status::</label>
+                                                                                        <select name="enrollment_status" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                            <option value="1">Enrolled</option>
+                                                                                            <option value="2">Not Enrolled</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Date:</label>
+                                                                                        <input value="<?= $client['enrollment_date'] ?>" class="validate[custom[date]]" type="text" name="enrollment_date" id="enrollment_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Comments:</label>
+                                                                                        <textarea name="comments" rows="4"><?= $client['comments'] ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="dr"><span></span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="client_image" value="<?= $client['client_image'] ?>" />
+                                                                <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                <input type="submit" name="edit_client" value="Save updates" class="btn btn-warning">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="delete<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Delete User</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong style="font-weight: bold;color: red">
+                                                                    <p>Are you sure you want to delete this user</p>
+                                                                </strong>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="img<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Client Image</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img src="<?= $img ?>" width="350">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        <?php $x++;
+                                        } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <a href="info.php?id=3&sid=&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                            echo $_GET['page'] - 1;
+                                                                        } else {
+                                                                            echo 1;
+                                                                        } ?>" class="btn btn-default">
+                                        < </a>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <a href="info.php?id=3&sid=<?= $_GET['sid'] ?>&page=<?= $_GET['id'] ?>&page=<?= $i ?>" class="btn btn-default <?php if ($i == $_GET['page']) {
+                                                                                                                                                                    echo 'active';
+                                                                                                                                                                } ?>"><?= $i ?></a>
+                                            <?php } ?>
+                                            <a href="info.php?id=3&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                    echo $_GET['page'] + 1;
+                                                                                                } else {
+                                                                                                    echo $i - 1;
+                                                                                                } ?>" class="btn btn-default"> > </a>
+                                </div>
+                            </div>
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 7) { ?>
+                        <div class="col-md-12">
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2) { ?>
+                                <div class="head clearfix">
+                                    <div class="isw-ok"></div>
+                                    <h1>Search by Site</h1>
+                                </div>
+                                <div class="block-fluid">
+                                    <form id="validation" method="post">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-1">Site:</div>
+                                            <div class="col-md-4">
+                                                <select name="site" required>
+                                                    <option value="">Select Site</option>
+                                                    <?php foreach ($override->getData('site') as $site) { ?>
+                                                        <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="submit" name="search_by_site" value="Search" class="btn btn-info">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            <?php } ?>
+                            <div class="head clearfix">
+                                <div class="isw-grid"></div>
+                                <h1>List of Clients Suppressed Viral Loads</h1>
+                                <ul class="buttons">
+                                    <li><a href="#" class="isw-download"></a></li>
+                                    <li><a href="#" class="isw-attachment"></a></li>
+                                    <li>
+                                        <a href="#" class="isw-settings"></a>
+                                        <ul class="dd-list">
+                                            <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                            <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                            <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2) {
+                                if ($_GET['sid'] != null) {
+                                    $pagNum = 0;
+                                    $pagNum = $override->countData3('clients', 'vl',50,'status', 1, 'site_id', $_GET['sid']);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+                                    $clients = $override->getWithLimit3('clients', 'vl',50,'site_id', $_GET['sid'], 'status', 1, $page, $numRec);
+                                } else {
+                                    $pagNum = 0;
+                                    $pagNum = $override->countData2('clients', 'vl',50,'status', 1);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+                                    $clients = $override->getWithLimit3('clients', 'vl',50, 'status', 1, $page, $numRec);
+                                }
+                            } else {
+                                $pagNum = 0;
+                                $pagNum = $override->countData3('clients', 'vl',50, 'site_id', $user->data()->site_id, 'status', 1);
+                                $pages = ceil($pagNum / $numRec);
+                                if (!$_GET['page'] || $_GET['page'] == 1) {
+                                    $page = 0;
+                                } else {
+                                    $page = ($_GET['page'] * $numRec) - $numRec;
+                                }
+                                $clients = $override->getWithLimit4('clients', 'vl',50,'site_id', $user->data()->site_id, 'status', 1, $page, $numRec);
+                            } ?>
+                            <div class="block-fluid">
+                                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="checkall" /></th>
+                                            <td width="20">#</td>
+                                            <th width="40">Picture</th>
+                                            <th width="40">Enrollment Date</th>
+                                            <th width="8%">Enrollment id</th>
+                                            <th width="8%">Recent Viral Load within 6 months (copies/ml)</th>
+                                            <th width="8%">Recent DATE (within 6 months)<span></span></th>
+                                            <th width="8%">Viral Load (At Enrollment)(copies/ml)</th>
+                                            <th width="8%">Viral Load DATE(At Enrollment)</th>
+                                            <th width="8%">Site</th>
+                                            <th width="8%">Name</th>
+                                            <th width="8%">Gender</th>
+                                            <th width="8%">Age</th>
+                                            <th width="8%">Staff</th>
+                                            <th width="40%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $x = 1;
+                                        foreach ($clients as $client) {
+                                            $site = $override->getData2('site', 'id', $client['site_id'])[0];
+                                            $staff = $override->getData2('user', 'id', $client['staff_id'])[0];
+                                            // print_r($staff);
+                                        ?>
+                                            <tr>
+                                                <td><input type="checkbox" name="checkbox" /></td>
+                                                <td><?= $x ?></td>
+                                                <td width="100">
+                                                    <?php if ($client['client_image'] != '' || is_null($client['client_image'])) {
+                                                        $img = $client['client_image'];
+                                                    } else {
+                                                        $img = 'img/users/blank.png';
+                                                    } ?>
+                                                    <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?= $img ?>" width="90" height="90" class="" /></a>
+                                                </td>
+                                                <td><?= $client['enrollment_date'] ?></td>
+                                                <td><?= $client['enrollment_id'] ?></td>
+                                                <td><?= $client['recent_vl'] ?><br><br><span>(copies/ml)</span></td>
+                                                <td><?= $client['recent_vl_date'] ?></td>
+                                                <td><?= $client['vl'] ?><br><br><span>(copies/ml)</span></td>
+                                                <td><?= $client['vl_date'] ?></td>
+                                                <td><?= $site['name'] ?></td>
+                                                <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
+                                                <td><?= $client['gender'] ?></td>
+                                                <td><?= $client['age'] ?></td>
+                                                <td><?= $staff['username'] ?></td>
+                                                <td>
+                                                    <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
+
+                                                    <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                                        <a href="#client<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a>
+                                                    <?php } ?>
+
+                                                    <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                        <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                    <?php } ?>
+                                                    <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Schedule</a>
+                                                </td>
+
+                                            </tr>
+                                            <div class="modal fade" id="clientView<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Edit Client View</h4>
+                                                            </div>
+                                                            <div class="modal-body modal-body-np">
+                                                                <div class="row">
+                                                                    <div class="block-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Study</label>
+                                                                                        <select name="position" style="width: 100%;" disabled>
+                                                                                            <?php foreach ($override->getData('study') as $study) { ?>
+                                                                                                <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                                                            <?php } ?>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Entry</label>
+                                                                                        <input value="<?= $client['clinic_date'] ?>" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment ID</label>
+                                                                                        <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Hospital ID Number</label>
+                                                                                        <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>CTC-ID Number:</label>
+                                                                                        <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>First Name</label>
+                                                                                        <input value="<?= $client['firstname'] ?>" type="text" name="firstname" id="firstname" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Middle Name</label>
+                                                                                        <input value="<?= $client['middlename'] ?>" type="text" name="middlename" id="middlename" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Last Name</label>
+                                                                                        <input value="<?= $client['lastname'] ?>" type="text" name="lastname" id="lastname" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Birth</label>
+                                                                                        <input value="<?= $client['dob'] ?>" type="text" name="dob" id="dob" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent Viral Load (within 6 months):</label>
+                                                                                        <input value="<?= $client['recent_vl'] ?>" type="text" name="recent_vl" id="recent_vl" disabled />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent DATE (within 6 months)</label>
+                                                                                        <input value="<?= $client['recent_vl_date'] ?>" type="text" name="recent_vl_date" id="recent_vl_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load (AT Enrollment):</label>
+                                                                                        <input value="<?= $client['vl'] ?>" type="text" name="vl" id="vl" disabled />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load DATE(At Enrollment)</label>
+                                                                                        <input value="<?= $client['vl_date'] ?>" type="text" name="vl_date" id="vl_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Initials:</label>
+                                                                                        <input value="<?= $client['initials'] ?>" type="text" name="initials" id="initials" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Gender</label>
+                                                                                        <select name="gender" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['gender'] ?>"><?= $client['gender'] ?></option>
+                                                                                            <option value="male">Male</option>
+                                                                                            <option value="female">Female</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Marital Status:</label>
+                                                                                        <select name="marital_status" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['marital_status'] ?>"><?= $client['marital_status'] ?></option>
+                                                                                            <option value="Single">Single</option>
+                                                                                            <option value="Married">Married</option>
+                                                                                            <option value="Divorced">Divorced</option>
+                                                                                            <option value="Separated">Separated</option>
+                                                                                            <option value="Widower">Widower/Widow</option>
+                                                                                            <option value="Cohabit">Cohabit</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Education Level</label>
+                                                                                        <select name="education_level" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['education_level'] ?>"><?= $client['education_level'] ?></option>
+                                                                                            <option value="Not attended school">Not attended school</option>
+                                                                                            <option value="Primary">Primary</option>
+                                                                                            <option value="Secondary">Secondary</option>
+                                                                                            <option value="Certificate">Certificate</option>
+                                                                                            <option value="Diploma">Diploma</option>
+                                                                                            <option value="Undergraduate degree">Undergraduate degree</option>
+                                                                                            <option value="Postgraduate degree">Postgraduate degree</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Workplace/station site:</label>
+                                                                                        <input value="<?= $client['workplace'] ?>" class="" type="text" name="workplace" id="workplace" disabled />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Occupation</label>
+                                                                                        <input value="<?= $client['occupation'] ?>" class="" type="text" name="occupation" id="occupation" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Phone Number:</label>
+                                                                                        <input value="<?= $client['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" disabled /> <span>Example: 0700 000 111</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Relative's Phone Number:</label>
+                                                                                        <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" disabled /> <span>Example: 0700 000 111</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Residence Street::</label>
+                                                                                        <input value="<?= $client['street'] ?>" class="" type="text" name="street" id="street" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Ward</label>
+                                                                                        <input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>District:</label>
+                                                                                        <input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>House Number:</label>
+                                                                                        <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Status::</label>
+                                                                                        <select name="enrollment_status" style="width: 100%;" disabled>
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                            <option value="1">Enrolled</option>
+                                                                                            <option value="2">Not Enrolled</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Date:</label>
+                                                                                        <input value="<?= $client['enrollment_date'] ?>" type="text" name="enrollment_date" id="enrollment_date" disabled /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Comments:</label>
+                                                                                        <textarea name="comments" rows="4"><?= $client['comments'] ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="dr"><span></span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="client<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form id="validation" enctype="multipart/form-data" method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Edit Client Info</h4>
+                                                            </div>
+                                                            <div class="modal-body modal-body-np">
+                                                                <div class="row">
+                                                                    <div class="block-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Study</label>
+                                                                                        <select name="position" style="width: 100%;" required>
+                                                                                            <?php foreach ($override->getData('study') as $study) { ?>
+                                                                                                <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                                                            <?php } ?>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Entry</label>
+                                                                                        <input value="<?= $client['clinic_date'] ?>" class="validate[required,custom[date]]" type="text" name="clinic_date" id="clinic_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment ID</label>
+                                                                                        <input value="<?= $client['enrollment_id'] ?>" type="text" name="enrollment_id" id="enrollment_id" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Hospital ID Number</label>
+                                                                                        <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>CTC-ID Number:</label>
+                                                                                        <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>First Name</label>
+                                                                                        <input value="<?= $client['firstname'] ?>" class="validate[required]" type="text" name="firstname" id="firstname" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Middle Name</label>
+                                                                                        <input value="<?= $client['middlename'] ?>" class="validate[required]" type="text" name="middlename" id="middlename" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Last Name</label>
+                                                                                        <input value="<?= $client['lastname'] ?>" class="validate[required]" type="text" name="lastname" id="lastname" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Birth</label>
+                                                                                        <input value="<?= $client['dob'] ?>" class="validate[required,custom[date]]" type="text" name="dob" id="dob" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent Viral Load (within 6 months):</label>
+                                                                                        <input value="<?= $client['recent_vl'] ?>" type="text" name="recent_vl" id="recent_vl" />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Recent DATE (within 6 months)</label>
+                                                                                        <input value="<?= $client['recent_vl_date'] ?>" type="text" name="recent_vl_date" id="recent_vl_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load (AT Enrollment):</label>
+                                                                                        <input value="<?= $client['vl'] ?>" type="text" name="vl" id="vl" />
+                                                                                        <span>(copies/ml)</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Viral Load DATE(At Enrollment)</label>
+                                                                                        <input value="<?= $client['vl_date'] ?>" type="text" name="vl_date" id="vl_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Initials:</label>
+                                                                                        <input value="<?= $client['initials'] ?>" class="validate[required]" type="text" name="initials" id="initials" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Gender</label>
+                                                                                        <select name="gender" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['gender'] ?>"><?= $client['gender'] ?></option>
+                                                                                            <option value="male">Male</option>
+                                                                                            <option value="female">Female</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Marital Status:</label>
+                                                                                        <select name="marital_status" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['marital_status'] ?>"><?= $client['marital_status'] ?></option>
+                                                                                            <option value="Single">Single</option>
+                                                                                            <option value="Married">Married</option>
+                                                                                            <option value="Divorced">Divorced</option>
+                                                                                            <option value="Separated">Separated</option>
+                                                                                            <option value="Widower">Widower/Widow</option>
+                                                                                            <option value="Cohabit">Cohabit</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Education Level</label>
+                                                                                        <select name="education_level" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['education_level'] ?>"><?= $client['education_level'] ?></option>
+                                                                                            <option value="Not attended school">Not attended school</option>
+                                                                                            <option value="Primary">Primary</option>
+                                                                                            <option value="Secondary">Secondary</option>
+                                                                                            <option value="Certificate">Certificate</option>
+                                                                                            <option value="Diploma">Diploma</option>
+                                                                                            <option value="Undergraduate degree">Undergraduate degree</option>
+                                                                                            <option value="Postgraduate degree">Postgraduate degree</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Workplace/station site:</label>
+                                                                                        <input value="<?= $client['workplace'] ?>" class="" type="text" name="workplace" id="workplace" required />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Occupation</label>
+                                                                                        <input value="<?= $client['occupation'] ?>" class="" type="text" name="occupation" id="occupation" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Phone Number:</label>
+                                                                                        <input value="<?= $client['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Relative's Phone Number:</label>
+                                                                                        <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" /> <span>Example: 0700 000 111</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Residence Street::</label>
+                                                                                        <input value="<?= $client['street'] ?>" class="" type="text" name="street" id="street" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Ward</label>
+                                                                                        <input value="<?= $client['ward'] ?>" class="" type="text" name="ward" id="ward" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>District:</label>
+                                                                                        <input value="<?= $client['district'] ?>" class="" type="text" name="district" id="district" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>House Number:</label>
+                                                                                        <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Status::</label>
+                                                                                        <select name="enrollment_status" style="width: 100%;" required>
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                            <option value="1">Enrolled</option>
+                                                                                            <option value="2">Not Enrolled</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Enrollment Date:</label>
+                                                                                        <input value="<?= $client['enrollment_date'] ?>" class="validate[custom[date]]" type="text" name="enrollment_date" id="enrollment_date" /> <span>Example: 2010-12-01</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Comments:</label>
+                                                                                        <textarea name="comments" rows="4"><?= $client['comments'] ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="dr"><span></span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="client_image" value="<?= $client['client_image'] ?>" />
+                                                                <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                <input type="submit" name="edit_client" value="Save updates" class="btn btn-warning">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="delete<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Delete User</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong style="font-weight: bold;color: red">
+                                                                    <p>Are you sure you want to delete this user</p>
+                                                                </strong>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="img<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Client Image</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img src="<?= $img ?>" width="350">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        <?php $x++;
+                                        } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <a href="info.php?id=3&sid=&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                            echo $_GET['page'] - 1;
+                                                                        } else {
+                                                                            echo 1;
+                                                                        } ?>" class="btn btn-default">
+                                        < </a>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <a href="info.php?id=3&sid=<?= $_GET['sid'] ?>&page=<?= $_GET['id'] ?>&page=<?= $i ?>" class="btn btn-default <?php if ($i == $_GET['page']) {
+                                                                                                                                                                    echo 'active';
+                                                                                                                                                                } ?>"><?= $i ?></a>
+                                            <?php } ?>
+                                            <a href="info.php?id=3&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                    echo $_GET['page'] + 1;
+                                                                                                } else {
+                                                                                                    echo $i - 1;
+                                                                                                } ?>" class="btn btn-default"> > </a>
+                                </div>
+                            </div>
+                        </div>
                     <?php } elseif ($_GET['id'] == 8) { ?>
 
                     <?php } elseif ($_GET['id'] == 9) { ?>
+                        <div class="col-md-6">
+                            <div class="head clearfix">
+                                <div class="isw-grid"></div>
+                                <h1>Download Data</h1>
+                                <ul class="buttons">
+                                    <li><a href="#" class="isw-download"></a></li>
+                                    <li><a href="#" class="isw-attachment"></a></li>
+                                    <li>
+                                        <a href="#" class="isw-settings"></a>
+                                        <ul class="dd-list">
+                                            <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                            <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                            <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="block-fluid">
+                                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th width="5%">#</th>
+                                        <th width="25%">Name</th>
+                                        <th width="25%">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- <tr>
+                                        <td>1</td>
+                                        <td>Clients Suprresed Viral Load</td>
+                                        <td><form method="post"><input type="submit" name="suprresed_viral_load" value="Download"></form> </td>
+                                    </tr> -->
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Clients</td>
+                                        <td><form method="post"><input type="submit" name="clients" value="Download"></form> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Visit</td>
+                                        <td><form method="post"><input type="submit" name="visits" value="Download"></form> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Laboratory</td>
+                                        <td><form method="post"><input type="submit" name="lab" value="Download"></form> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Study IDs</td>
+                                        <td><form method="post"><input type="submit" name="study_id" value="Download"></form> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Sites</td>
+                                        <td><form method="post"><input type="submit" name="sites" value="Download"></form> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Screening</td>
+                                        <td><form method="post"><input type="submit" name="screening" value="Download"></form> </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 10) { ?>
 
