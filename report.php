@@ -10,7 +10,7 @@ if ($user->isLoggedIn()) {
     try {
         $site_data = $override->getData('site');
         $Total_registered = $override->getCount('clients', 'status', 1);
-        $Total_enrolled = $override->getCount1('clients', 'status', 1, 'enrollment_status', 1);
+        $Total_enrolled = $override->countData('clients', 'status', 1, 'enrollment_status', 1);
         $successMessage = 'Report Successful Created';
     } catch (Exception $e) {
         die($e->getMessage());
@@ -57,7 +57,7 @@ if ($site_data) {
                 </tr>
                 <tr>
                     <td colspan="' . $span0 . '" align="center" style="font-size: 18px">
-                        <b>Total Registered ( ' . $Total . ' ):  Total Enrolled( ' . $data_enrolled . ' )</b>
+                        <b>Total Registered ( ' . $Total_registered . ' ):  Total Enrolled( ' . $Total_enrolled . ' )</b>
                     </td>
                 </tr>
                 <tr>
