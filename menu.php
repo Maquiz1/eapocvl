@@ -90,6 +90,57 @@ if ($user->data()->accessLevel == 1) {
                     </li>
                 </ul>
             </li>
+
+            <li class="openable">
+                <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
+                <ul>
+                    <li class="active">
+                        <a href="report.php">
+                            <span class="text">Report 0 ( SUMMARY ) </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report1.php">
+                            <span class="text">Report 1 ( SUMMARY ) </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report2.php">
+                            <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
+                        </a>
+                    </li>
+                    <!-- <li class="active">
+                        <a href="report1_2.php">
+                            <span class="text">Report 3 ( SUMMARY 2)</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report4.php">
+                            <span class="text">Report 4 ( CARDIAC )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report5.php">
+                            <span class="text">Report 5 ( DIABETES )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report6.php">
+                            <span class="text">Report 6 ( SICKLE CELL )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report7.php">
+                            <span class="text">Report 7 ( Cardiomyopathy )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report8.php">
+                            <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
+                        </a>
+                    </li> -->
+                </ul>
+            </li>
         <?php } ?>
         <li class="openable">
             <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
@@ -107,31 +158,31 @@ if ($user->data()->accessLevel == 1) {
             </ul>
         </li>
         <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
-        <li class="openable">
-            <a href="#"><span class="isw-users"></span><span class="text">Summary Report</span></a>
-            <ul>
-                <li>
-                    <a href="info.php?id=6">
-                        <span class="glyphicon glyphicon-user"></span><span class="text">Suppressed Viral Load Clients</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="info.php?id=7">
-                    <span class="glyphicon glyphicon-user"></span><span class="text">Failed Viral Load Test Clients</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="info.php?id=8">
-                    <span class="glyphicon glyphicon-user"></span><span class="text">Dropped Clients</span>
-                    </a>
-                </li>
-                <li class="active">
-                <a href="info.php?id=9" target="_blank">
-                    <span class="isw-download"></span><span class="text">Download Data</span>
-                </a>
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Summary Report</span></a>
+                <ul>
+                    <li>
+                        <a href="info.php?id=6">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Suppressed Viral Load Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=7">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Failed Viral Load Test Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=8">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Dropped Clients</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="info.php?id=9" target="_blank">
+                            <span class="isw-download"></span><span class="text">Download Data</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            </ul>
-        </li>
         <?php } ?>
     </ul>
 
