@@ -258,8 +258,16 @@ if ($user->isLoggedIn()) {
                                 'visit_date' => Input::get('enrollment_date'),
                                 'visit_window' => 2,
                                 'status' => 1,
-                                'seq_no' => 0,
+                                'seq_no' => 1,
                                 'client_id' => $client['id'],
+                                'sample_date6' => Input::get('recent_vl_date'),
+                                'vl_results6' => Input::get('recent_vl'),
+                                'sample_date' => Input::get('vl_date'),
+                                'vl_results' => Input::get('vl'),
+                                'reasons' => Input::get('comments'),
+                                'staff_id' => $user->data()->id,
+                                'site_id' => $user->data()->site_id,
+                                'created_on' => date('Y-m-d'),
                             ));
 
                             $user->createRecord('visit', array(
@@ -268,8 +276,9 @@ if ($user->isLoggedIn()) {
                                 'expected_date' => date('Y-m-d', strtotime("6 months", strtotime($enroll_date))),
                                 'visit_window' => 2,
                                 'status' => 0,
-                                'seq_no' => 0,
+                                'seq_no' => 2,
                                 'client_id' => $client['id'],
+                                'created_on' => date('Y-m-d'),
                             ));
 
                             $user->createRecord('visit', array(
@@ -278,8 +287,9 @@ if ($user->isLoggedIn()) {
                                 'expected_date' => date('Y-m-d', strtotime("12 months", strtotime($enroll_date))),
                                 'visit_window' => 2,
                                 'status' => 0,
-                                'seq_no' => 0,
+                                'seq_no' => 3,
                                 'client_id' => $client['id'],
+                                'created_on' => date('Y-m-d'),
                             ));
 
                             $successMessage = 'Client Added Successful';

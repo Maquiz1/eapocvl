@@ -1634,8 +1634,17 @@ if ($user->isLoggedIn()) {
                                                                                     <!-- select -->
                                                                                     <div class="form-group">
                                                                                         <label>Enrollment Status::</label>
-                                                                                        <select name="enrollment_status" style="width: 100%;" disabled>
-                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                        <select name="enrollment_status" id="enrollment_status" style="width: 100%;">
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?php if ($client['enrollment_status']) {
+                                                                                                                                                if ($client['enrollment_status'] == 1) {
+                                                                                                                                                    echo 'Enrolled';
+                                                                                                                                                } elseif ($client['enrollment_status'] == 2) {
+                                                                                                                                                    echo 'Not Enrolled';
+                                                                                                                                                }
+                                                                                                                                            } else {
+                                                                                                                                                echo 'Select';
+                                                                                                                                            } ?>
+                                                                                            </option>
                                                                                             <option value="1">Enrolled</option>
                                                                                             <option value="2">Not Enrolled</option>
                                                                                         </select>
@@ -2216,21 +2225,21 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <?php if($visit_code == 1){ ?>
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="col-md-3">Date sample for the viral load taken?(six previous month):</div>
-                                                                                <div class="col-md-9">
-                                                                                    <input value="<?= $visit['sample_date6'] ?>" class="validate[required,custom[date]]" type="text" name="sample_date6" id="sample_date6" />
-                                                                                    <span>Example: 2010-12-01</span>
+                                                                            <?php if ($visit_code == 1) { ?>
+                                                                                <div class="row-form clearfix">
+                                                                                    <div class="col-md-3">Date sample for the viral load taken?(six previous month):</div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input value="<?= $visit['sample_date6'] ?>" class="validate[required,custom[date]]" type="text" name="sample_date6" id="sample_date6" />
+                                                                                        <span>Example: 2010-12-01</span>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="col-md-3">What is the viral load result for the Six previous months?:</div>
-                                                                                <div class="col-md-9">
-                                                                                    <input value="<?= $visit['vl_results6'] ?>" type="text" name="vl_results6" id="vl_results6" />
+                                                                                <div class="row-form clearfix">
+                                                                                    <div class="col-md-3">What is the viral load result for the Six previous months?:</div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input value="<?= $visit['vl_results6'] ?>" type="text" name="vl_results6" id="vl_results6" />
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
 
                                                                             <?php } ?>
                                                                             <div class="row-form clearfix">
