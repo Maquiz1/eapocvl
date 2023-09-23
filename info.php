@@ -1634,16 +1634,16 @@ if ($user->isLoggedIn()) {
                                                                                     <!-- select -->
                                                                                     <div class="form-group">
                                                                                         <label>Enrollment Status::</label>
-                                                                                        <select name="enrollment_status" id="enrollment_status" style="width: 100%;">
+                                                                                        <select name="enrollment_status" id="enrollment_status" style="width: 100%;" disabled>
                                                                                             <option value="<?= $client['enrollment_status'] ?>"><?php if ($client['enrollment_status']) {
-                                                                                                                                                if ($client['enrollment_status'] == 1) {
-                                                                                                                                                    echo 'Enrolled';
-                                                                                                                                                } elseif ($client['enrollment_status'] == 2) {
-                                                                                                                                                    echo 'Not Enrolled';
-                                                                                                                                                }
-                                                                                                                                            } else {
-                                                                                                                                                echo 'Select';
-                                                                                                                                            } ?>
+                                                                                                                                                    if ($client['enrollment_status'] == 1) {
+                                                                                                                                                        echo 'Enrolled';
+                                                                                                                                                    } elseif ($client['enrollment_status'] == 2) {
+                                                                                                                                                        echo 'Not Enrolled';
+                                                                                                                                                    }
+                                                                                                                                                } else {
+                                                                                                                                                    echo 'Select';
+                                                                                                                                                } ?>
                                                                                             </option>
                                                                                             <option value="1">Enrolled</option>
                                                                                             <option value="2">Not Enrolled</option>
@@ -1998,8 +1998,17 @@ if ($user->isLoggedIn()) {
                                                                                     <!-- select -->
                                                                                     <div class="form-group">
                                                                                         <label>Enrollment Status::</label>
-                                                                                        <select name="enrollment_status" style="width: 100%;" required>
-                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?= $client['enrollment_status'] ?></option>
+                                                                                        <select name="enrollment_status" id="enrollment_status" style="width: 100%;">
+                                                                                            <option value="<?= $client['enrollment_status'] ?>"><?php if ($client['enrollment_status']) {
+                                                                                                                                                    if ($client['enrollment_status'] == 1) {
+                                                                                                                                                        echo 'Enrolled';
+                                                                                                                                                    } elseif ($client['enrollment_status'] == 2) {
+                                                                                                                                                        echo 'Not Enrolled';
+                                                                                                                                                    }
+                                                                                                                                                } else {
+                                                                                                                                                    echo 'Select';
+                                                                                                                                                } ?>
+                                                                                            </option>
                                                                                             <option value="1">Enrolled</option>
                                                                                             <option value="2">Not Enrolled</option>
                                                                                         </select>
