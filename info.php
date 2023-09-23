@@ -459,6 +459,13 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
+                    if (Input::get('visit_code') == 'D0') {
+                        $visit_code = 1;
+                    } elseif (Input::get('visit_code') == 'M6') {
+                        $visit_code = 2;
+                    } elseif (Input::get('visit_code') == 'M12') {
+                        $visit_code = 3;
+                    }
                     $user->updateRecord('visit', array(
                         'visit_date' => Input::get('visit_date'),
                         'status' => Input::get('visit_status'),
@@ -468,7 +475,7 @@ if ($user->isLoggedIn()) {
                         'reasons' => Input::get('reasons'),
                         'staff_id' => $user->data()->id,
                         'site_id' => $user->data()->site_id,
-                        // 'seq_no' => $user->data()->site_id,                        
+                        'seq_no' => $visit_code,
                     ), Input::get('id'));
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2199,6 +2206,7 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
+                                                                        <input type="hidden" name="visit1_code" value="<?= $visit['visit_code'] ?>">
                                                                         <input type="submit" name="add_visit" class="btn btn-warning" value="Save updates">
                                                                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                     </div>
