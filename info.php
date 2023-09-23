@@ -459,24 +459,45 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    if (Input::get('visit_code') == 'D0') {
-                        $visit_code = 1;
-                    } elseif (Input::get('visit_code') == 'M6') {
-                        $visit_code = 2;
-                    } elseif (Input::get('visit_code') == 'M12') {
-                        $visit_code = 3;
+                    if (Input::get('visit_code') == 1) {
+                        $user->updateRecord('visit', array(
+                            'visit_date' => Input::get('visit_date'),
+                            'status' => Input::get('visit_status'),
+                            'visit_status' => Input::get('visit_status'),
+                            'sample_date6' => Input::get('sample_date6'),
+                            'vl_results6' => Input::get('vl_results6'),
+                            'sample_date' => Input::get('sample_date'),
+                            'vl_results' => Input::get('vl_results'),
+                            'reasons' => Input::get('reasons'),
+                            'staff_id' => $user->data()->id,
+                            'site_id' => $user->data()->site_id,
+                            'seq_no' => Input::get('visit_code'),
+                        ), Input::get('id'));
+                    } elseif (Input::get('visit_code') == 2 | Input::get('visit_code') == 3) {
+                        $user->updateRecord('visit', array(
+                            'visit_date' => Input::get('visit_date'),
+                            'status' => Input::get('visit_status'),
+                            'visit_status' => Input::get('visit_status'),
+                            'sample_date' => Input::get('sample_date'),
+                            'vl_results' => Input::get('vl_results'),
+                            'reasons' => Input::get('reasons'),
+                            'staff_id' => $user->data()->id,
+                            'site_id' => $user->data()->site_id,
+                            'seq_no' => Input::get('visit_code'),
+                        ), Input::get('id'));
                     }
-                    $user->updateRecord('visit', array(
-                        'visit_date' => Input::get('visit_date'),
-                        'status' => Input::get('visit_status'),
-                        'visit_status' => Input::get('visit_status'),
-                        'sample_date' => Input::get('sample_date'),
-                        'vl_results' => Input::get('vl_results'),
-                        'reasons' => Input::get('reasons'),
-                        'staff_id' => $user->data()->id,
-                        'site_id' => $user->data()->site_id,
-                        'seq_no' => $visit_code,
-                    ), Input::get('id'));
+
+                    // $user->updateRecord('visit', array(
+                    //     'visit_date' => Input::get('visit_date'),
+                    //     'status' => Input::get('visit_status'),
+                    //     'visit_status' => Input::get('visit_status'),
+                    //     'sample_date' => Input::get('sample_date'),
+                    //     'vl_results' => Input::get('vl_results'),
+                    //     'reasons' => Input::get('reasons'),
+                    //     'staff_id' => $user->data()->id,
+                    //     'site_id' => $user->data()->site_id,
+                    //     'seq_no' => Input::get('visit_code'),
+                    // ), Input::get('id'));
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -2146,8 +2167,15 @@ if ($user->isLoggedIn()) {
                                                             <?php } ?>
                                                         </td>
                                                         <td>
-                                                            <?php if ($visit['visit_code'] != 'D0') { ?>
-                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit</a>
+                                                            <?php if ($visit['visit_code'] == 'D0') {
+                                                                $visit_code = 1 ?>
+                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit V1</a>
+                                                            <?php } elseif ($visit['visit_code'] == 'M6') {
+                                                                $visit_code = 2 ?>
+                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit V2</a>
+                                                            <?php } elseif ($visit['visit_code'] = 'M12') {
+                                                                $visit_code = 3 ?>
+                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit V3</a>
                                                             <?php } ?>
                                                         </td>
                                                     </tr>
@@ -2181,21 +2209,39 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row-form clearfix">
-                                                                                <div class="col-md-3">Date:</div>
+                                                                                <div class="col-md-3">Visit Date:</div>
                                                                                 <div class="col-md-9">
                                                                                     <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?= $visit['visit_date'] ?>" />
                                                                                     <span>Example: 2010-12-01</span>
                                                                                 </div>
                                                                             </div>
+
+                                                                            <?php if($visit_code == 1){ ?>
                                                                             <div class="row-form clearfix">
-                                                                                <div class="col-md-3">Date sample for the viral load taken?:</div>
+                                                                                <div class="col-md-3">Date sample for the viral load taken?(six previous month):</div>
+                                                                                <div class="col-md-9">
+                                                                                    <input value="<?= $visit['sample_date6'] ?>" class="validate[required,custom[date]]" type="text" name="sample_date6" id="sample_date6" />
+                                                                                    <span>Example: 2010-12-01</span>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="col-md-3">What is the viral load result for the Six previous months?:</div>
+                                                                                <div class="col-md-9">
+                                                                                    <input value="<?= $visit['vl_results6'] ?>" type="text" name="vl_results6" id="vl_results6" />
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <?php } ?>
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="col-md-3">Date sample for the viral load taken (POC)?:</div>
                                                                                 <div class="col-md-9">
                                                                                     <input value="<?= $visit['sample_date'] ?>" class="validate[required,custom[date]]" type="text" name="sample_date" id="sample_date" />
                                                                                     <span>Example: 2010-12-01</span>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row-form clearfix">
-                                                                                <div class="col-md-3">What is the viral load result for the sample taken at today's visit:</div>
+                                                                                <div class="col-md-3">What is the viral load result for the sample taken at today's visit(POC):</div>
                                                                                 <div class="col-md-9">
                                                                                     <input value="<?= $visit['vl_results'] ?>" type="text" name="vl_results" id="vl_results" />
                                                                                 </div>
@@ -2206,7 +2252,7 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
-                                                                        <input type="hidden" name="visit1_code" value="<?= $visit['visit_code'] ?>">
+                                                                        <input type="hidden" name="visit_code" value="<?= $visit_code ?>">
                                                                         <input type="submit" name="add_visit" class="btn btn-warning" value="Save updates">
                                                                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                     </div>
