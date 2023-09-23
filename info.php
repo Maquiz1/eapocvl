@@ -445,9 +445,12 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('edit_visit')) {
+        } elseif (Input::get('add_visit')) {
             $validate = $validate->check($_POST, array(
                 'visit_date' => array(
+                    'required' => true,
+                ),
+                'visit_status' => array(
                     'required' => true,
                 ),
                 'visit_status' => array(
@@ -458,10 +461,14 @@ if ($user->isLoggedIn()) {
                 try {
                     $user->updateRecord('visit', array(
                         'visit_date' => Input::get('visit_date'),
-                        'created_on' => date('Y-m-d'),
-                        'status' => 1,
+                        'status' => Input::get('visit_status'),
                         'visit_status' => Input::get('visit_status'),
+                        'sample_date' => Input::get('sample_date'),
+                        'vl_results' => Input::get('vl_results'),
                         'reasons' => Input::get('reasons'),
+                        'staff_id' => $user->data()->id,
+                        'site_id' => $user->data()->site_id,
+                        // 'seq_no' => $user->data()->site_id,                        
                     ), Input::get('id'));
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -482,31 +489,28 @@ if ($user->isLoggedIn()) {
             }
         }
 
-        if($_GET['id'] == 9){
+        if ($_GET['id'] == 9) {
             $data = null;
             $filename = null;
-            if(Input::get('clients')){
+            if (Input::get('clients')) {
                 $data = $override->getData('clients');
                 $filename = 'Clients';
-            }elseif (Input::get('visits')){
+            } elseif (Input::get('visits')) {
                 $data = $override->getData('visit');
                 $filename = 'Visits';
-            }elseif (Input::get('visits')){
+            } elseif (Input::get('visits')) {
                 $data = $override->getData('visit');
                 $filename = 'Visits';
-            }elseif (Input::get('lab')){
+            } elseif (Input::get('lab')) {
                 $data = $override->getData('lab');
                 $filename = 'Laboratory Results';
-            }
-            elseif (Input::get('study_id')){
+            } elseif (Input::get('study_id')) {
                 $data = $override->getData('study_id');
                 $filename = 'Study IDs';
-            }
-            elseif (Input::get('sites')){
+            } elseif (Input::get('sites')) {
                 $data = $override->getData('site');
                 $filename = 'Sites';
-            }
-            elseif (Input::get('screening')){
+            } elseif (Input::get('screening')) {
                 $data = $override->getData('screening');
                 $filename = 'Screening';
             }
@@ -685,19 +689,19 @@ if ($user->isLoggedIn()) {
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
-                                                                      
 
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Site</div>
-                                                                            <div class="col-md-9">
-                                                                                <select name="site_id" style="width: 100%;" required>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                    <?php foreach ($override->getData('site') as $site) { ?>
+
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="col-md-3">Site</div>
+                                                                                <div class="col-md-9">
+                                                                                    <select name="site_id" style="width: 100%;" required>
                                                                                         <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                    <?php } ?>
-                                                                                </select>
+                                                                                        <?php foreach ($override->getData('site') as $site) { ?>
+                                                                                            <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                                                        <?php } ?>
+                                                                                    </select>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
                                                                         <?php
                                                                         }
                                                                         ?>
@@ -2153,8 +2157,17 @@ if ($user->isLoggedIn()) {
                                                                             <div class="row-form clearfix">
                                                                                 <div class="col-md-3">Visit Status</div>
                                                                                 <div class="col-md-9">
-                                                                                    <select name="site_id" style="width: 100%;" required>
-                                                                                        <option value="">Select</option>
+                                                                                    <select name="visit_status" id="visit_status" style="width: 100%;">
+                                                                                        <option value="<?= $visit['visit_status'] ?>"><?php if ($visit['visit_status']) {
+                                                                                                                                            if ($visit['visit_status'] == 1) {
+                                                                                                                                                echo 'Attended';
+                                                                                                                                            } elseif ($visit['visit_status'] == 2) {
+                                                                                                                                                echo 'Missed';
+                                                                                                                                            }
+                                                                                                                                        } else {
+                                                                                                                                            echo 'Select';
+                                                                                                                                        } ?>
+                                                                                        </option>
                                                                                         <option value="1">Attended</option>
                                                                                         <option value="2">Missed</option>
                                                                                     </select>
@@ -2163,9 +2176,24 @@ if ($user->isLoggedIn()) {
                                                                             <div class="row-form clearfix">
                                                                                 <div class="col-md-3">Date:</div>
                                                                                 <div class="col-md-9">
-                                                                                    <input value="" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" /> <span>Example: 2010-12-01</span>
+                                                                                    <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?= $visit['visit_date'] ?>" />
+                                                                                    <span>Example: 2010-12-01</span>
                                                                                 </div>
                                                                             </div>
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="col-md-3">Date sample for the viral load taken?:</div>
+                                                                                <div class="col-md-9">
+                                                                                    <input value="<?= $visit['sample_date'] ?>" class="validate[required,custom[date]]" type="text" name="sample_date" id="sample_date" />
+                                                                                    <span>Example: 2010-12-01</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="col-md-3">What is the viral load result for the sample taken at today's visit:</div>
+                                                                                <div class="col-md-9">
+                                                                                    <input value="<?= $visit['vl_results'] ?>" type="text" name="vl_results" id="vl_results" />
+                                                                                </div>
+                                                                            </div>
+
                                                                             <div class="dr"><span></span></div>
                                                                         </div>
                                                                     </div>
@@ -2309,17 +2337,17 @@ if ($user->isLoggedIn()) {
                             <?php if ($user->data()->power == 1 || $user->data()->power == 2) {
                                 if ($_GET['sid'] != null) {
                                     $pagNum = 0;
-                                    $pagNum = $override->countData3('clients', 'vl',50,'status', 1, 'site_id', $_GET['sid']);
+                                    $pagNum = $override->countData3('clients', 'vl', 50, 'status', 1, 'site_id', $_GET['sid']);
                                     $pages = ceil($pagNum / $numRec);
                                     if (!$_GET['page'] || $_GET['page'] == 1) {
                                         $page = 0;
                                     } else {
                                         $page = ($_GET['page'] * $numRec) - $numRec;
                                     }
-                                    $clients = $override->getWithLimit3('clients', 'vl',50,'site_id', $_GET['sid'], 'status', 1, $page, $numRec);
+                                    $clients = $override->getWithLimit3('clients', 'vl', 50, 'site_id', $_GET['sid'], 'status', 1, $page, $numRec);
                                 } else {
                                     $pagNum = 0;
-                                    $pagNum = $override->countData2('clients', 'vl',50,'status', 1);
+                                    $pagNum = $override->countData2('clients', 'vl', 50, 'status', 1);
                                     $pages = ceil($pagNum / $numRec);
                                     if (!$_GET['page'] || $_GET['page'] == 1) {
                                         $page = 0;
@@ -2330,14 +2358,14 @@ if ($user->isLoggedIn()) {
                                 }
                             } else {
                                 $pagNum = 0;
-                                $pagNum = $override->countData3('clients', 'vl',50, 'site_id', $user->data()->site_id, 'status', 1);
+                                $pagNum = $override->countData3('clients', 'vl', 50, 'site_id', $user->data()->site_id, 'status', 1);
                                 $pages = ceil($pagNum / $numRec);
                                 if (!$_GET['page'] || $_GET['page'] == 1) {
                                     $page = 0;
                                 } else {
                                     $page = ($_GET['page'] * $numRec) - $numRec;
                                 }
-                                $clients = $override->getWithLimit4('clients', 'vl',50,'site_id', $user->data()->site_id, 'status', 1, $page, $numRec);
+                                $clients = $override->getWithLimit4('clients', 'vl', 50, 'site_id', $user->data()->site_id, 'status', 1, $page, $numRec);
                             } ?>
                             <div class="block-fluid">
                                 <table cellpadding="0" cellspacing="0" width="100%" class="table">
@@ -3227,35 +3255,35 @@ if ($user->isLoggedIn()) {
                             <?php if ($user->data()->power == 1 || $user->data()->power == 2) {
                                 if ($_GET['sid'] != null) {
                                     $pagNum = 0;
-                                    $pagNum = $override->countData3('clients', 'vl',50,'status', 1, 'site_id', $_GET['sid']);
+                                    $pagNum = $override->countData3('clients', 'vl', 50, 'status', 1, 'site_id', $_GET['sid']);
                                     $pages = ceil($pagNum / $numRec);
                                     if (!$_GET['page'] || $_GET['page'] == 1) {
                                         $page = 0;
                                     } else {
                                         $page = ($_GET['page'] * $numRec) - $numRec;
                                     }
-                                    $clients = $override->getWithLimit3('clients', 'vl',50,'site_id', $_GET['sid'], 'status', 1, $page, $numRec);
+                                    $clients = $override->getWithLimit3('clients', 'vl', 50, 'site_id', $_GET['sid'], 'status', 1, $page, $numRec);
                                 } else {
                                     $pagNum = 0;
-                                    $pagNum = $override->countData2('clients', 'vl',50,'status', 1);
+                                    $pagNum = $override->countData2('clients', 'vl', 50, 'status', 1);
                                     $pages = ceil($pagNum / $numRec);
                                     if (!$_GET['page'] || $_GET['page'] == 1) {
                                         $page = 0;
                                     } else {
                                         $page = ($_GET['page'] * $numRec) - $numRec;
                                     }
-                                    $clients = $override->getWithLimit3('clients', 'vl',50, 'status', 1, $page, $numRec);
+                                    $clients = $override->getWithLimit3('clients', 'vl', 50, 'status', 1, $page, $numRec);
                                 }
                             } else {
                                 $pagNum = 0;
-                                $pagNum = $override->countData3('clients', 'vl',50, 'site_id', $user->data()->site_id, 'status', 1);
+                                $pagNum = $override->countData3('clients', 'vl', 50, 'site_id', $user->data()->site_id, 'status', 1);
                                 $pages = ceil($pagNum / $numRec);
                                 if (!$_GET['page'] || $_GET['page'] == 1) {
                                     $page = 0;
                                 } else {
                                     $page = ($_GET['page'] * $numRec) - $numRec;
                                 }
-                                $clients = $override->getWithLimit4('clients', 'vl',50,'site_id', $user->data()->site_id, 'status', 1, $page, $numRec);
+                                $clients = $override->getWithLimit4('clients', 'vl', 50, 'site_id', $user->data()->site_id, 'status', 1, $page, $numRec);
                             } ?>
                             <div class="block-fluid">
                                 <table cellpadding="0" cellspacing="0" width="100%" class="table">
@@ -4123,48 +4151,60 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <table cellpadding="0" cellspacing="0" width="100%" class="table">
                                     <thead>
-                                    <tr>
-                                        <th width="5%">#</th>
-                                        <th width="25%">Name</th>
-                                        <th width="25%">Action</th>
-                                    </tr>
+                                        <tr>
+                                            <th width="5%">#</th>
+                                            <th width="25%">Name</th>
+                                            <th width="25%">Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <!-- <tr>
+                                        <!-- <tr>
                                         <td>1</td>
                                         <td>Clients Suprresed Viral Load</td>
                                         <td><form method="post"><input type="submit" name="suprresed_viral_load" value="Download"></form> </td>
                                     </tr> -->
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Clients</td>
-                                        <td><form method="post"><input type="submit" name="clients" value="Download"></form> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Visit</td>
-                                        <td><form method="post"><input type="submit" name="visits" value="Download"></form> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Laboratory</td>
-                                        <td><form method="post"><input type="submit" name="lab" value="Download"></form> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Study IDs</td>
-                                        <td><form method="post"><input type="submit" name="study_id" value="Download"></form> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Sites</td>
-                                        <td><form method="post"><input type="submit" name="sites" value="Download"></form> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Screening</td>
-                                        <td><form method="post"><input type="submit" name="screening" value="Download"></form> </td>
-                                    </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Clients</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="clients" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Visit</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="visits" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Laboratory</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="lab" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Study IDs</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="study_id" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Sites</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="sites" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>Screening</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="screening" value="Download"></form>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
