@@ -114,43 +114,15 @@ if ($user->data()->accessLevel == 1) {
                             <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
                         </a>
                     </li>
-                    <!-- <li class="active">
-                        <a href="report1_2.php">
-                            <span class="text">Report 3 ( SUMMARY 2)</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report4.php">
-                            <span class="text">Report 4 ( CARDIAC )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report5.php">
-                            <span class="text">Report 5 ( DIABETES )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report6.php">
-                            <span class="text">Report 6 ( SICKLE CELL )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report7.php">
-                            <span class="text">Report 7 ( Cardiomyopathy )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report8.php">
-                            <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
-                        </a>
-                    </li> -->
+
                 </ul>
             </li>
         <?php } ?>
-        <li class="openable">
-            <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
-            <ul>
-                <?php if (!$user->data()->accessLevel == 4) { ?>
+        <?php if (!$user->data()->accessLevel == 4) { ?>
+
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
+                <ul>
 
                     <li>
                         <a href="add.php?id=4">
@@ -162,10 +134,11 @@ if ($user->data()->accessLevel == 1) {
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
                         </a>
                     </li>
-                <?php } ?>
 
-            </ul>
-        </li>
+                </ul>
+            </li>
+        <?php } ?>
+
         <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 4) { ?>
 
             <li class="openable">
