@@ -1,7 +1,20 @@
 <?php
+require_once 'php/core/init.php';
+$user = new User();
+$override = new OverideData();
+$email = new Email();
+$random = new Random();
+
 if ($user->data()->accessLevel == 1) {
 } else {
 }
+
+$sinza = $override->getCount1('clients', 'status', 1, 'site_id', 1);
+$mnazi = $override->getCount1('clients', 'status', 1, 'site_id', 2);
+$amana = $override->getCount1('clients', 'status', 1, 'site_id', 3);
+$mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
+
+
 ?>
 <div class="menu">
 
@@ -148,21 +161,27 @@ if ($user->data()->accessLevel == 1) {
                     <li>
                         <a href="info.php?id=3&sid=1">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Sinza Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $sinza ?></span>
                         </a>
                     </li>
                     <li>
                         <a href="info.php?id=3&sid=2">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mnazi mmoja Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $mnazi ?></span>
+
                         </a>
                     </li>
                     <li>
                         <a href="info.php?id=3&sid=3">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Amana Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $amana ?></span>
                         </a>
                     </li>
                     <li>
                         <a href="info.php?id=3&sid=4">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mwananyamala Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $mwanany ?></span>
+
                         </a>
                     </li>
 
