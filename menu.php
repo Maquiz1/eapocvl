@@ -69,6 +69,11 @@ if ($user->data()->accessLevel == 1) {
                         </a>
                     </li>
                     <li>
+                        <a href="add.php?id=10">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Site Status</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="add.php?id=5">
                             <span class="glyphicon glyphicon-floppy-disk"></span><span class="text">Study</span>
                         </a>
@@ -145,18 +150,53 @@ if ($user->data()->accessLevel == 1) {
         <li class="openable">
             <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
             <ul>
-                <li>
-                    <a href="add.php?id=4">
-                        <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="info.php?id=3">
-                        <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
-                    </a>
-                </li>
+                <?php if (!$user->data()->accessLevel == 4) { ?>
+
+                    <li>
+                        <a href="add.php?id=4">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
+                        </a>
+                    </li>
+                <?php } ?>
+
             </ul>
         </li>
+        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 4) { ?>
+
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Clients Registered</span></a>
+                <ul>
+
+                    <li>
+                        <a href="info.php?id=3&sid=1">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Sinza Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3&sid=2">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mnazi mmoja Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3&sid=3">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Amana Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3&sid=4">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mwananyamala Clients</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        <?php } ?>
+
         <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Summary Report</span></a>
