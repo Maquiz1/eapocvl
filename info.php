@@ -4425,7 +4425,17 @@ if ($user->isLoggedIn()) {
 
                             <?php } ?>
                             <div class="isw-grid"></div>
-                            <h1>List of Follow Up Clients</h1>
+                            <?php if (Input::get('site') == 1) { ?>
+                                <h1>EAPOCVL FOLOW UP LIST FOR SINZA HOSPITAL</h1>
+                            <?php } elseif (Input::get('site') == 2) { ?>
+                                <h1>EAPOCVL FOLOW UP LIST FOR MNAZI MMOJA HOSPITAL</h1>
+                            <?php } elseif (Input::get('site') == 3) { ?>
+                                <h1>EAPOCVL FOLOW UP LIST FOR AMANA HOSPITAL</h1>
+                            <?php } elseif (Input::get('site') == 4) { ?>
+                                <h1>'EAPOCVL FOLOW UP LIST FOR MWANANYAMALA HOSPITAL</h1>
+                            <?php } else { ?>
+                                <h1>EAPOCVL FOLOW UP LIST FOR ALL NIMR SITES</h1>
+                            <?php } ?>
                             <ul class="buttons">
                                 <li><a href="followUp.php?start_date=<?= Input::get('start_date') ?>&end_date=<?= Input::get('end_date') ?>&site=<?= Input::get('site') ?>" class="isw-download"></a></li>
                                 <li><a href="#" class="isw-attachment"></a></li>
@@ -4512,7 +4522,20 @@ if ($user->isLoggedIn()) {
                                     } else {
                                         $data = $override->FollowUpList6(Input::get('start_date'), Input::get('end_date'));
                                     }
+
                                     foreach ($data as $value) {
+
+                                        if ($value['SITE_NAME'] == 1) {
+                                            $SITE_NAME = 'SINZA HOSPITAL';
+                                        } elseif ($value['SITE_NAME'] == 2) {
+                                            $SITE_NAME = 'MNAZI MMOJA HOSPITAL';
+                                        } elseif ($value['SITE_NAME'] == 3) {
+                                            $SITE_NAME = 'AMANA HOSPITAL';
+                                        } elseif ($value['SITE_NAME'] == 4) {
+                                            $SITE_NAME = 'MWANANYAMALA HOSPITAL';
+                                        } else {
+                                            $SITE_NAME = 'ALL NIMR SITES';
+                                        }
 
                                     ?>
                                         <tr>
@@ -4524,7 +4547,7 @@ if ($user->isLoggedIn()) {
                                             <td><?= $value['EXPECTED_DATE'] ?></td>
                                             <td><?= $value['VISIT_DATE'] ?></td>
                                             <td><?= $value['VISIT_NAME'] ?></td>
-                                            <td><?= $value['SITE_NAME'] ?></td>
+                                            <td><?= $SITE_NAME ?></td>
                                         </tr>
                                     <?php
                                         $x++;
