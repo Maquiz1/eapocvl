@@ -15,9 +15,6 @@ if ($user->isLoggedIn()) {
             $data = $override->FollowUpList6($_GET['start_date'], $_GET['end_date']);
             $dataCount = $override->FollowUpList6Count($_GET['start_date'], $_GET['end_date']);
         }
-
-        $data = $override->FollowUpList5(4, '2023-10-05');
-        $dataCount = $override->FollowUpList5Count(4, '2023-10-05');
         $successMessage = 'Report Successful Created';
     } catch (Exception $e) {
         die($e->getMessage());
@@ -38,7 +35,7 @@ if ($_GET['site'] == 1) {
     $title = 'EAPOCVL FOLOW UP LIST FOR ALL NIMR SITES';
 }
 
-$sub_title = 'FOR DATE' . $_GET['start_date'] . '  TO  ' . $_GET['end_date'];
+$sub_title = 'FROM ' . $_GET['start_date'] . '  TO  ' . $_GET['end_date'];
 
 
 $pdf = new Pdf();
@@ -67,7 +64,7 @@ $output .= '
                     </td>
                 </tr>    
                 <tr>
-                    <th colspan="2">No.</th>
+                    <th colspan="1">No.</th>
                     <th colspan="2">Enrollment Date</th>
                     <th colspan="2">PATIENT ID</th>
                     <th colspan="2">Name</th>        
@@ -75,7 +72,7 @@ $output .= '
                     <th colspan="2">EXPECTED DATE</th>
                     <th colspan="2">VISIT DATE</th>
                     <th colspan="2">VISIT NAME</th>
-                    <th colspan="2">SITE NAME</th>
+                    <th colspan="3">SITE NAME</th>
                 </tr>    
      ';
 
@@ -94,7 +91,7 @@ foreach ($data as $client) {
 
     $output .= '
             <tr>
-                <td colspan="2">' . $x . '</td>
+                <td colspan="1">' . $x . '</td>
                 <td colspan="2">' . $client['ENROLLMENT_DATE'] . '</td>
                 <td colspan="2">' . $client['PATIENT_ID'] . '</td>
                 <td colspan="2">' . $client['FIRST_NAME'] . ' - ' . $client['LAST_NAME'] . '</td>
@@ -102,7 +99,7 @@ foreach ($data as $client) {
                 <td colspan="2">' . $client['EXPECTED_DATE'] . '</td>
                 <td colspan="2">' . $client['VISIT_DATE'] . '</td>
                 <td colspan="2">' . $client['VISIT_NAME'] . '</td>
-                <td colspan="2">' . $SITE_NAME . '</td>
+                <td colspan="3">' . $SITE_NAME . '</td>
             </tr>
             ';
     $x += 1;
