@@ -4510,6 +4510,7 @@ if ($user->isLoggedIn()) {
                                         <th width="8%">PHONE NUMBER</th>
                                         <th width="8%">EXPECTED DATE</th>
                                         <th width="8%">VISIT DATE</th>
+                                        <th width="8%">STATUS</th>
                                         <th width="8%">VISIT NAME</th>
                                         <th width="8%">SITE NAME</th>
                                     </tr>
@@ -4537,6 +4538,15 @@ if ($user->isLoggedIn()) {
                                             $SITE_NAME = 'ALL NIMR SITES';
                                         }
 
+
+                                        if ($value['VISIT_STATUS'] == 1) {
+                                            $VISIT_STATUS = 'DONE';
+                                        } elseif ($value['VISIT_STATUS'] == 2) {
+                                            $VISIT_STATUS = 'MISSED';
+                                        } else {
+                                            $VISIT_STATUS = 'NOT DONE';
+                                        }
+
                                     ?>
                                         <tr>
                                             <td><?= $x ?></td>
@@ -4546,6 +4556,7 @@ if ($user->isLoggedIn()) {
                                             <td><?= $value['PHONE_NUMBER'] ?></td>
                                             <td><?= $value['EXPECTED_DATE'] ?></td>
                                             <td><?= $value['VISIT_DATE'] ?></td>
+                                            <td><?= $VISIT_STATUS ?></td>
                                             <td><?= $value['VISIT_NAME'] ?></td>
                                             <td><?= $SITE_NAME ?></td>
                                         </tr>

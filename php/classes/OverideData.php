@@ -358,6 +358,7 @@ WHERE t1.status = '1' AND t1.site_id = '$site'  AND t2.expected_date <= '$date' 
        t2.client_id AS CLIENT_ID,
        t2.expected_date AS EXPECTED_DATE,
        t2.visit_date AS VISIT_DATE,
+       t2.status AS VISIT_STATUS,
        t2.visit_name AS VISIT_NAME,
        t1.site_id AS SITE_NAME
         FROM clients AS t1 INNER JOIN visit AS t2 ON t1.id = t2.client_id
@@ -396,6 +397,7 @@ WHERE t1.status = '1' AND t1.site_id = '$site'  AND t2.expected_date <= '$date' 
        t2.client_id AS CLIENT_ID,
        t2.expected_date AS EXPECTED_DATE,
        t2.visit_date AS VISIT_DATE,
+       t2.status AS VISIT_STATUS,
        t2.visit_name AS VISIT_NAME,
        t1.site_id AS SITE_NAME
         FROM clients AS t1 INNER JOIN visit AS t2 ON t1.id = t2.client_id
