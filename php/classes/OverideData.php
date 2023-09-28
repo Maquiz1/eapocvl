@@ -361,7 +361,7 @@ WHERE t1.status = '1' AND t1.site_id = '$site'  AND t2.expected_date <= '$date' 
        t2.visit_name AS VISIT_NAME,
        t1.site_id AS SITE_NAME
         FROM clients AS t1 INNER JOIN visit AS t2 ON t1.id = t2.client_id
-        WHERE t1.status = '1' AND t2.expected_date >= '$date' AND t2.expected_date <= '$date2' AND t2.visit_code = 'M6' ORDER BY t1.site_id");  
+        WHERE t1.status = '1' AND t2.expected_date >= '$date' AND t2.expected_date <= '$date2' AND t2.visit_code = 'M6' ORDER BY t1.site_id,t1.enrollment_id");  
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
