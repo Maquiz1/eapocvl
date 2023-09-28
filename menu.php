@@ -215,6 +215,36 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
                     </li>
                 </ul>
             </li>
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Foll Up List</span></a>
+                <ul>
+                    <li>
+                        <a href="info.php?id=12">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">All site</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=12&site_id=1">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Sinza</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=12&site_id=2">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Mnazi Mmoja</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=12&site_id=3">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Amana</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="info.php?id=12&site_id=4">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Mwananyamala</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         <?php } ?>
     </ul>
 

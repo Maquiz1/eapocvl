@@ -536,6 +536,38 @@ if ($user->isLoggedIn()) {
                 Redirect::to($url);
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('fect_list_all')) {
+            $validate = $validate->check($_POST, array(
+                // 'name' => array(
+                //     'required' => true,
+                // ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $override->FollowUpList(Input::get('date'));
+                    $successMessage = 'Site Successful Listed';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('fect_list')) {
+            $validate = $validate->check($_POST, array(
+                // 'name' => array(
+                //     'required' => true,
+                // ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $override->FollowUpList1(Input::get('site'), Input::get('date'));
+                    $successMessage = 'Site Successful Listed';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
 
         if ($_GET['id'] == 9) {
@@ -562,6 +594,16 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('screening')) {
                 $data = $override->getData('screening');
                 $filename = 'Screening';
+            }
+            $user->exportData($data, $filename);
+        }
+
+        if ($_GET['id'] == 12) {
+            $data = null;
+            $filename = null;
+            if (Input::get('followUp')) {
+                $data = $override->FollowUpList3();
+                $filename = 'Follow Up List';
             }
             $user->exportData($data, $filename);
         }
@@ -4357,9 +4399,95 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     <?php } elseif ($_GET['id'] == 11) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Fetch ALL List To Follow Up Site Status</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Up to Date</div>
+                                        <div class="col-md-9">
+                                            <input value="" class="validate[required]" type="text" name="date" id="date" />
+                                        </div>
+                                    </div>
 
+                                    <div class="footer tar">
+                                        <input type="submit" name="fect_list_all" value="Fetch Site List" class="btn btn-default">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    <?php } elseif ($_GET['id'] == 12) { ?>
+                        <div class="head clearfix">
+                            <div class="isw-grid"></div>
+                            <h1>List of Follow Up Clients</h1>
+                            <ul class="buttons">
+                                <li><a href="followUp.php" class="isw-download"></a></li>
+                                <li><a href="#" class="isw-attachment"></a></li>
+                                <li>
+                                    <a href="#" class="isw-settings"></a>
+                                    <ul class="dd-list">
+                                        <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                        <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                        <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <tr>
+                            <td>
+                                <form method="post"><input type="submit" name="followUp" value="Download"></form>
+                            </td>
+                        </tr>
+                        <div class="block-fluid">
+                            <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <thead>
+                                    <tr>
+                                        <td width="2%">#</td>
+                                        <th width="8%">Enrollment Date</th>
+                                        <th width="8%">PATIENT ID</th>
+                                        <th width="8%">Name</th>
+                                        <th width="8%">PHONE NUMBER</th>
+                                        <th width="8%">EXPECTED DATE</th>
+                                        <th width="8%">VISIT DATE</th>
+                                        <th width="8%">VISIT NAME</th>
+                                        <th width="8%">SITE NAME</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $x = 1;
 
-                    <?php } ?>
+                                    if (!$_GET['site_id']) {
+                                        $data = $override->FollowUpList4('2023-10-05');
+                                    } else {
+                                        $data = $override->FollowUpList5($_GET['site_id'],'2023-10-05');
+                                    }
+                                    foreach ($data as $value) {
+
+                                    ?>
+                                        <tr>
+                                            <td><?= $x ?></td>
+                                            <td><?= $value['ENROLLMENT_DATE'] ?></td>
+                                            <td><?= $value['PATIENT_ID'] ?></td>
+                                            <td> <?= $value['FIRST_NAME'] . ' ' . $client['LAST_NAME'] ?></td>
+                                            <td><?= $value['PHONE_NUMBER'] ?></td>
+                                            <td><?= $value['EXPECTED_DATE'] ?></td>
+                                            <td><?= $value['VISIT_DATE'] ?></td>
+                                            <td><?= $value['VISIT_NAME'] ?></td>
+                                            <td><?= $value['SITE_NAME'] ?></td>
+                                        </tr>
+                                    <?php
+                                        $x++;
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    <?php }
+                    ?>
                 </div>
 
                 <div class="dr"><span></span></div>

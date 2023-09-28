@@ -279,6 +279,7 @@ if ($user->isLoggedIn()) {
                                 'seq_no' => 2,
                                 'client_id' => $client['id'],
                                 'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
                             ));
 
                             $user->createRecord('visit', array(
@@ -290,6 +291,7 @@ if ($user->isLoggedIn()) {
                                 'seq_no' => 3,
                                 'client_id' => $client['id'],
                                 'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
                             ));
 
                             $successMessage = 'Client Added Successful';
