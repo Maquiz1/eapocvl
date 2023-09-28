@@ -8,13 +8,13 @@ $random = new Random();
 
 if ($user->isLoggedIn()) {
     try {
-        // if (!$_GET['site_id']) {
-        //     $data = $override->FollowUpList4('2023-10-05');
-        //     $dataCount = $override->FollowUpList4Count('2023-10-05');
-        // } else {
-        //     $data = $override->FollowUpList5($_GET['site_id'], '2023-10-05');
-        //     $dataCount = $override->FollowUpList5Count($_GET['site_id'],'2023-10-05');
-        // }
+        if ($_GET['site']) {
+            $data = $override->FollowUpList7($_GET['start_date'], $_GET['end_date'], $_GET['site']);
+            $dataCount = $override->FollowUpList7Count($_GET['start_date'], $_GET['end_date'], $_GET['site']);
+        } else {
+            $data = $override->FollowUpList6($_GET['start_date'], $_GET['end_date']);
+            $dataCount = $override->FollowUpList6Count($_GET['start_date'], $_GET['end_date']);
+        }
 
         $data = $override->FollowUpList5(4, '2023-10-05');
         $dataCount = $override->FollowUpList5Count(4, '2023-10-05');
@@ -26,7 +26,20 @@ if ($user->isLoggedIn()) {
     Redirect::to('index.php');
 }
 
-$title = 'EAPOCVL FOLOW UP LIST FOR MONTH SEPTEMBER AND OCTOBER UP TO 2023-10-05';
+if ($_GET['site'] == 1) {
+    $title = 'EAPOCVL FOLOW UP LIST FOR SINZA HOSPITAL';
+} elseif ($_GET['site'] == 2) {
+    $title = 'EAPOCVL FOLOW UP LIST FOR MNAZI MMOJA HOSPITAL';
+} elseif ($_GET['site'] == 3) {
+    $title = 'EAPOCVL FOLOW UP LIST FOR AMANA HOSPITAL';
+} elseif ($_GET['site'] == 4) {
+    $title = 'EAPOCVL FOLOW UP LIST FOR MWANANYAMALA HOSPITAL';
+} else {
+    $title = 'EAPOCVL FOLOW UP LIST FOR ALL NIMR SITES';
+}
+
+$sub_title = 'FOR DATE' . $_GET['start_date'] . '  TO  ' . $_GET['end_date'];
+
 
 $pdf = new Pdf();
 
@@ -41,6 +54,11 @@ $output .= '
                 <tr>
                     <td colspan="18" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="18" align="center" style="font-size: 18px">
+                        <b>' . $sub_title . '</b>
                     </td>
                 </tr>
                 <tr>
@@ -61,20 +79,20 @@ $output .= '
                 </tr>    
      ';
 
-        // Load HTML content into dompdf
-        $x = 1;
-        foreach ($data as $client) {
-            if ($client['SITE_NAME'] == 1) {
+// Load HTML content into dompdf
+$x = 1;
+foreach ($data as $client) {
+    if ($client['SITE_NAME'] == 1) {
         $SITE_NAME = 'SINZA';
-            } elseif($client['SITE_NAME'] == 2) {
+    } elseif ($client['SITE_NAME'] == 2) {
         $SITE_NAME = 'MNAZI';
-            } elseif ($client['SITE_NAME'] == 3) {
+    } elseif ($client['SITE_NAME'] == 3) {
         $SITE_NAME = 'AMANA';
-            } elseif ($client['SITE_NAME'] == 4) {
+    } elseif ($client['SITE_NAME'] == 4) {
         $SITE_NAME = 'MWANANYAMALA';
-            }
+    }
 
-        $output .= '
+    $output .= '
             <tr>
                 <td colspan="2">' . $x . '</td>
                 <td colspan="2">' . $client['ENROLLMENT_DATE'] . '</td>
@@ -87,7 +105,7 @@ $output .= '
                 <td colspan="2">' . $SITE_NAME . '</td>
             </tr>
             ';
-        $x += 1;
+    $x += 1;
 }
 
 $output .= '

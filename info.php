@@ -4427,7 +4427,7 @@ if ($user->isLoggedIn()) {
                             <div class="isw-grid"></div>
                             <h1>List of Follow Up Clients</h1>
                             <ul class="buttons">
-                                <li><a href="followUp.php" class="isw-download"></a></li>
+                                <li><a href="followUp.php?start_date=<?= Input::get('start_date') ?>&end_date=<?= Input::get('end_date') ?>&site=<?= Input::get('site') ?>" class="isw-download"></a></li>
                                 <li><a href="#" class="isw-attachment"></a></li>
                                 <li>
                                     <a href="#" class="isw-settings"></a>
@@ -4509,10 +4509,8 @@ if ($user->isLoggedIn()) {
                                     // print_r($_POST);
                                     if (Input::get('site')) {
                                         $data = $override->FollowUpList7(Input::get('start_date'), Input::get('end_date'), Input::get('site'));
-
                                     } else {
                                         $data = $override->FollowUpList6(Input::get('start_date'), Input::get('end_date'));
-
                                     }
                                     foreach ($data as $value) {
 
