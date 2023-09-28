@@ -598,15 +598,15 @@ if ($user->isLoggedIn()) {
             $user->exportData($data, $filename);
         }
 
-        if ($_GET['id'] == 12) {
-            $data = null;
-            $filename = null;
-            if (Input::get('followUp')) {
-                $data = $override->FollowUpList3();
-                $filename = 'Follow Up List';
-            }
-            $user->exportData($data, $filename);
-        }
+        // if ($_GET['id'] == 12) {
+        //     $data = null;
+        //     $filename = null;
+        //     if (Input::get('followUp')) {
+        //         $data = $override->FollowUpList3();
+        //         $filename = 'Follow Up List';
+        //     }
+        //     $user->exportData($data, $filename);
+        // }
     }
 } else {
     Redirect::to('index.php');
@@ -4506,11 +4506,13 @@ if ($user->isLoggedIn()) {
                                 </thead>
                                 <tbody>
                                     <?php $x = 1;
-
-                                    if (!$_GET['site_id']) {
-                                        $data = $override->FollowUpList6(Input::get('start_date'), Input::get('end_date'));
-                                    } else {
+                                    // print_r($_POST);
+                                    if (Input::get('site')) {
                                         $data = $override->FollowUpList7(Input::get('start_date'), Input::get('end_date'), Input::get('site'));
+
+                                    } else {
+                                        $data = $override->FollowUpList6(Input::get('start_date'), Input::get('end_date'));
+
                                     }
                                     foreach ($data as $value) {
 

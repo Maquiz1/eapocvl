@@ -385,7 +385,7 @@ WHERE t1.status = '1' AND t1.site_id = '$site'  AND t2.expected_date <= '$date' 
         return $num;
     }
 
-    public function FollowUpList7($site, $date, $date2)
+    public function FollowUpList7($date, $date2, $site)
     {
         $query = $this->_pdo->query("SELECT t1.id AS NO,
        t1.enrollment_date AS ENROLLMENT_DATE,
@@ -404,7 +404,7 @@ WHERE t1.status = '1' AND t1.site_id = '$site'  AND t2.expected_date <= '$date' 
         return $result;
     }
 
-    public function FollowUpList7Count($site, $date, $date2)
+    public function FollowUpList7Count($date, $date2,$site )
     {
         $query = $this->_pdo->query("SELECT t1.id AS NO,
        t1.enrollment_date AS ENROLLMENT_DATE,
