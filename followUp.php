@@ -11,9 +11,21 @@ if ($user->isLoggedIn()) {
         if ($_GET['site']) {
             $data = $override->FollowUpList7($_GET['start_date'], $_GET['end_date'], $_GET['site']);
             $dataCount = $override->FollowUpList7Count($_GET['start_date'], $_GET['end_date'], $_GET['site']);
+
+            // $data1 = $override->FollowUpList7($_GET['start_date'], $_GET['end_date'], $_GET['site']);
+            $dataCount1 = $override->FollowUpList7Count1($_GET['start_date'], $_GET['end_date'], $_GET['site'],1);
+            $dataCount0 = $override->FollowUpList7Count1($_GET['start_date'], $_GET['end_date'], $_GET['site'],0);
+            $dataCount2 = $override->FollowUpList7Count1($_GET['start_date'], $_GET['end_date'], $_GET['site'],2);
+
+
         } else {
             $data = $override->FollowUpList6($_GET['start_date'], $_GET['end_date']);
             $dataCount = $override->FollowUpList6Count($_GET['start_date'], $_GET['end_date']);
+
+            $dataCount1 = $override->FollowUpList6Count1($_GET['start_date'], $_GET['end_date'],1);
+            $dataCount0 = $override->FollowUpList6Count1($_GET['start_date'], $_GET['end_date'],0);
+            $dataCount2 = $override->FollowUpList6Count1($_GET['start_date'], $_GET['end_date'],2);
+
         }
         $successMessage = 'Report Successful Created';
     } catch (Exception $e) {
@@ -45,22 +57,66 @@ $file_name = $title . '.pdf';
 
 $output = ' ';
 
+$output .= '
+<html>
+    <head>
+        <style>
+            @page { margin: 50px;}
+            header { position: fixed; top: -50px; left: 0px; right: 0px; height: 100px;}
+            footer { position: fixed; bottom: -50px; left: 0px; right: 0px; height: 50px; }
+            
+
+            .tittle {
+                position: fixed;
+                right: 20px;
+                top: -30px;
+             }
+
+            .reportTitle {
+                position: fixed;
+                left: 20px;
+                top: -30px;
+             }             
+
+            .period {
+                position: fixed;
+                right: 470px;
+                top: -30px;
+                color: blue;
+             }
+            
+            .NotDone {
+                color: red;
+             }
+            .Done {
+                color: green;
+             }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div><span class="page"></span></div>
+            <div class="reportTitle">EAPOC-VL Report</div>
+            <div class="tittle">National Institute For Medical Research (NIMR)</div>
+            <div class="period">' . date('Y-m-d') . '</div>
+        </header>
+';
 
 $output .= '
     <table width="100%" border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td colspan="18" align="center" style="font-size: 18px">
+                    <td colspan="20" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="18" align="center" style="font-size: 18px">
+                    <td colspan="20" align="center" style="font-size: 18px">
                         <b>' . $sub_title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="18" align="center" style="font-size: 18px">
-                        <b>Total Follow Up ( ' . $dataCount . ' ):</b>
+                    <td colspan="20" align="center" style="font-size: 18px">
+                        <b>Total Follow Up ( ' . $dataCount . ' ):Done ( ' . $dataCount1 . ' ):Not Done ( ' . $dataCount0 . ' ):Missed ( ' . $dataCount2 . ' ):</b>
                     </td>
                 </tr>    
                 <tr>
@@ -92,10 +148,13 @@ foreach ($data as $client) {
 
     if ($client['VISIT_STATUS'] == 1) {
         $VISIT_STATUS = 'DONE';
+        $status = 'Done';
     } elseif ($client['VISIT_STATUS'] == 2) {
         $VISIT_STATUS = 'MISSED';
+        $status = '';
     } else {
         $VISIT_STATUS = 'NOT DONE';
+        $status = 'NotDone';
     }
 
     $output .= '
@@ -107,7 +166,7 @@ foreach ($data as $client) {
                 <td colspan="2">' . $client['PHONE_NUMBER'] . '</td>
                 <td colspan="2">' . $client['EXPECTED_DATE'] . '</td>
                 <td colspan="2">' . $client['VISIT_DATE'] . '</td>
-                <td colspan="2">' . $VISIT_STATUS . '</td>
+                <td colspan="2" class="' . $status . '">' . $VISIT_STATUS . '</td>
                 <td colspan="2">' . $client['VISIT_NAME'] . '</td>
                 <td colspan="3">' . $SITE_NAME . '</td>
             </tr>
