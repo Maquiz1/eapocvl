@@ -4421,6 +4421,9 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 12) { ?>
                         <div class="head clearfix">
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2 || $user->data()->accessLevel == 4) { ?>
+
+                            <?php } ?>
                             <div class="isw-grid"></div>
                             <h1>List of Follow Up Clients</h1>
                             <ul class="buttons">
@@ -4436,9 +4439,54 @@ if ($user->isLoggedIn()) {
                                 </li>
                             </ul>
                         </div>
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Search by Site</h1>
+                        </div>
                         <tr>
                             <td>
-                                <form method="post"><input type="submit" name="followUp" value="Download"></form>
+                                <form id="validation" method="post">
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Start Date:</label>
+                                                    <input type="text" name="start_date" id="start_date" required /> <span>Example: 04/10/2012</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Start Date:</label>
+                                                    <input type="text" name="end_date" id="end_date" required /> <span>Example: 04/10/2012</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Site</label>
+                                                    <select name="site">
+                                                        <option value="">Select Site</option>
+                                                        <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
+                                                            <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <input type="submit" name="followUp" value="Search" class="btn btn-info">
+                                        </div>
+                                    </div>
+
+                                </form>
                             </td>
                         </tr>
                         <div class="block-fluid">
@@ -4460,9 +4508,9 @@ if ($user->isLoggedIn()) {
                                     <?php $x = 1;
 
                                     if (!$_GET['site_id']) {
-                                        $data = $override->FollowUpList4('2023-10-05');
+                                        $data = $override->FollowUpList6(Input::get('start_date'), Input::get('end_date'));
                                     } else {
-                                        $data = $override->FollowUpList5($_GET['site_id'],'2023-10-05');
+                                        $data = $override->FollowUpList7(Input::get('start_date'), Input::get('end_date'), Input::get('site'));
                                     }
                                     foreach ($data as $value) {
 
