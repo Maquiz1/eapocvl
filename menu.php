@@ -1,7 +1,20 @@
 <?php
+require_once 'php/core/init.php';
+$user = new User();
+$override = new OverideData();
+$email = new Email();
+$random = new Random();
+
 if ($user->data()->accessLevel == 1) {
 } else {
 }
+
+$sinza = $override->getCount1('clients', 'status', 1, 'site_id', 1);
+$mnazi = $override->getCount1('clients', 'status', 1, 'site_id', 2);
+$amana = $override->getCount1('clients', 'status', 1, 'site_id', 3);
+$mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
+
+
 ?>
 <div class="menu">
 
@@ -69,6 +82,11 @@ if ($user->data()->accessLevel == 1) {
                         </a>
                     </li>
                     <li>
+                        <a href="add.php?id=10">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Site Status</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="add.php?id=5">
                             <span class="glyphicon glyphicon-floppy-disk"></span><span class="text">Study</span>
                         </a>
@@ -109,54 +127,68 @@ if ($user->data()->accessLevel == 1) {
                             <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
                         </a>
                     </li>
-                    <!-- <li class="active">
-                        <a href="report1_2.php">
-                            <span class="text">Report 3 ( SUMMARY 2)</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report4.php">
-                            <span class="text">Report 4 ( CARDIAC )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report5.php">
-                            <span class="text">Report 5 ( DIABETES )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report6.php">
-                            <span class="text">Report 6 ( SICKLE CELL )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report7.php">
-                            <span class="text">Report 7 ( Cardiomyopathy )</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report8.php">
-                            <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
-                        </a>
-                    </li> -->
+
                 </ul>
             </li>
         <?php } ?>
-        <li class="openable">
-            <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
-            <ul>
-                <li>
-                    <a href="add.php?id=4">
-                        <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="info.php?id=3">
-                        <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        <?php if (!$user->data()->accessLevel == 4) { ?>
+
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
+                <ul>
+
+                    <li>
+                        <a href="add.php?id=4">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        <?php } ?>
+
+        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 4) { ?>
+
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Clients Registered</span></a>
+                <ul>
+
+                    <li>
+                        <a href="info.php?id=3&sid=1">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Sinza Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $sinza ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3&sid=2">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mnazi mmoja Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $mnazi ?></span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3&sid=3">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Amana Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $amana ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=3&sid=4">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mwananyamala Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $mwanany ?></span>
+
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        <?php } ?>
+
         <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Summary Report</span></a>

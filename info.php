@@ -137,6 +137,27 @@ if ($user->isLoggedIn()) {
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'User Deleted Successful';
+        } elseif (Input::get('delete_site')) {
+            $user->updateRecord('site', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'Site Deleted Successful';
+        } elseif (Input::get('update_site')) {
+            $validate = $validate->check($_POST, array(
+                // 'name' => array(
+                //     'required' => true,
+                // ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $override->UpdateSiteStaus('site', 'status', 1);
+                    $successMessage = 'Site Successful Added';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('delete_client')) {
             $user->updateRecord('clients', array(
                 'status' => 0,
@@ -1009,13 +1030,15 @@ if ($user->isLoggedIn()) {
                                         <tr>
                                             <th width="25%">Name</th>
                                             <th width="5%">Action</th>
+                                            <th width="5%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($override->getData('site') as $site) { ?>
+                                        <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                             <tr>
                                                 <td> <?= $site['name'] ?></td>
                                                 <td><a href="#site<?= $site['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a></td>
+                                                <td><a href="#delete<?= $site['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a></td>
                                                 <!-- EOF Bootrstrap modal form -->
                                             </tr>
                                             <div class="modal fade" id="site<?= $site['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1044,6 +1067,28 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </form>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="delete<?= $site['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>Delete Site</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong style="font-weight: bold;color: red">
+                                                                    <p>Are you sure you want to delete this Site</p>
+                                                                </strong>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $site['id'] ?>">
+                                                                <input type="submit" name="delete_site" value="Delete" class="btn btn-danger">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         <?php } ?>
@@ -1183,7 +1228,7 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 3) { ?>
                         <div class="col-md-12">
-                            <?php if ($user->data()->power == 1 || $user->data()->power == 2) { ?>
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2 || $user->data()->accessLevel == 4) { ?>
                                 <div class="head clearfix">
                                     <div class="isw-ok"></div>
                                     <h1>Search by Site</h1>
@@ -1195,7 +1240,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-md-4">
                                                 <select name="site" required>
                                                     <option value="">Select Site</option>
-                                                    <?php foreach ($override->getData('site') as $site) { ?>
+                                                    <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                                         <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
                                                     <?php } ?>
                                                 </select>
@@ -1223,7 +1268,7 @@ if ($user->isLoggedIn()) {
                                     </li>
                                 </ul>
                             </div>
-                            <?php if ($user->data()->power == 1 || $user->data()->power == 2) {
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2 || $user->data()->accessLevel == 4) {
                                 if ($_GET['sid'] != null) {
                                     $pagNum = 0;
                                     $pagNum = $override->countData('clients', 'status', 1, 'site_id', $_GET['sid']);
@@ -1312,8 +1357,11 @@ if ($user->isLoggedIn()) {
                                                     <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                                         <a href="#client<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a>
                                                     <?php } ?>
+                                                    <?php if (!$user->data()->accessLevel == 4) { ?>
 
-                                                    <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
+                                                        <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
+                                                    <?php } ?>
+
                                                     <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                         <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                     <?php } ?>
@@ -2170,6 +2218,10 @@ if ($user->isLoggedIn()) {
                                             </thead>
                                             <tbody>
                                                 <?php $x = 1;
+                                                $btn = 'Add';
+                                                if ($user->data()->accessLevel == 4) {
+                                                    $btn = 'View';
+                                                }
                                                 foreach ($override->get('visit', 'client_id', $_GET['cid']) as $visit) { ?>
                                                     <tr>
                                                         <td><?= $x ?></td>
@@ -2187,13 +2239,13 @@ if ($user->isLoggedIn()) {
                                                         <td>
                                                             <?php if ($visit['visit_code'] == 'D0') {
                                                                 $visit_code = 1 ?>
-                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit V1</a>
+                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal"><?= $btn ?> Visit V1</a>
                                                             <?php } elseif ($visit['visit_code'] == 'M6') {
                                                                 $visit_code = 2 ?>
-                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit V2</a>
+                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal"><?= $btn ?> Visit V2</a>
                                                             <?php } elseif ($visit['visit_code'] = 'M12') {
                                                                 $visit_code = 3 ?>
-                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Add Visit V3</a>
+                                                                <a href="#visit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal"><?= $btn ?> Visit V3</a>
                                                             <?php } ?>
                                                         </td>
                                                     </tr>
@@ -4283,6 +4335,26 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     <?php } elseif ($_GET['id'] == 10) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Add Site Status</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <!-- <div class="row-form clearfix">
+                                        <div class="col-md-3">Name:</div>
+                                        <div class="col-md-9">
+                                            <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                        </div>
+                                    </div> -->
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="update_site" value="Update Site Status" class="btn btn-default">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 11) { ?>
 

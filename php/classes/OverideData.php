@@ -183,4 +183,11 @@ class OverideData{
         return $result;
     }
 
+    function UpdateSiteStaus($table,$status,$value)
+    {
+        $query = $this->_pdo->query("UPDATE $table SET $status = '$value' WHERE 1");
+        $result = $query->fetchAll(PDO::FETCH_COLUMN);
+        return $result;
+    }
+
 }
