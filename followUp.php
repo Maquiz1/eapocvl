@@ -71,6 +71,7 @@ $output .= '
                     <th colspan="2">PHONE NUMBER</th>
                     <th colspan="2">EXPECTED DATE</th>
                     <th colspan="2">VISIT DATE</th>
+                    <th colspan="2">VISIT STATUS</th>
                     <th colspan="2">VISIT NAME</th>
                     <th colspan="3">SITE NAME</th>
                 </tr>    
@@ -89,6 +90,14 @@ foreach ($data as $client) {
         $SITE_NAME = 'MWANANYAMALA';
     }
 
+    if ($client['VISIT_STATUS'] == 1) {
+        $VISIT_STATUS = 'DONE';
+    } elseif ($client['VISIT_STATUS'] == 2) {
+        $VISIT_STATUS = 'MISSED';
+    } else {
+        $VISIT_STATUS = 'NOT DONE';
+    }
+
     $output .= '
             <tr>
                 <td colspan="1">' . $x . '</td>
@@ -98,6 +107,7 @@ foreach ($data as $client) {
                 <td colspan="2">' . $client['PHONE_NUMBER'] . '</td>
                 <td colspan="2">' . $client['EXPECTED_DATE'] . '</td>
                 <td colspan="2">' . $client['VISIT_DATE'] . '</td>
+                <td colspan="2">' . $VISIT_STATUS . '</td>
                 <td colspan="2">' . $client['VISIT_NAME'] . '</td>
                 <td colspan="3">' . $SITE_NAME . '</td>
             </tr>
