@@ -1357,10 +1357,16 @@ if ($user->isLoggedIn()) {
                                             <th width="8%">Viral Load (At Enrollment)(copies/ml)</th>
                                             <th width="8%">Viral Load DATE(At Enrollment)</th>
                                             <th width="8%">Site</th>
-                                            <th width="8%">Name</th>
+                                            <?php if ($user->data()->position == 1) { ?>
+                                                <th width="8%">Name</th>
+                                            <?php } ?>
                                             <th width="8%">Gender</th>
                                             <th width="8%">Age</th>
-                                            <th width="8%">Staff</th>
+                                            <?php if ($user->data()->position == 1) { ?>
+
+                                                <th width="8%">Staff</th>
+                                            <?php } ?>
+
                                             <th width="40%">Action</th>
                                         </tr>
                                     </thead>
@@ -1389,10 +1395,16 @@ if ($user->isLoggedIn()) {
                                                 <td><?= $client['vl'] ?><br><br><span>(copies/ml)</span></td>
                                                 <td><?= $client['vl_date'] ?></td>
                                                 <td><?= $site['name'] ?></td>
-                                                <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
+                                                <?php if ($user->data()->position == 1) { ?>
+                                                    <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
+                                                <?php } ?>
                                                 <td><?= $client['gender'] ?></td>
                                                 <td><?= $client['age'] ?></td>
-                                                <td><?= $staff['username'] ?></td>
+                                                <?php if ($user->data()->position == 1) { ?>
+
+                                                    <td><?= $staff['username'] ?></td>
+                                                <?php } ?>
+
                                                 <td>
                                                     <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
 
