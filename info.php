@@ -1468,7 +1468,9 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-
+<?php
+                        if (!$user->data()->accessLevel == 4) {
+                    ?>
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
@@ -1478,8 +1480,11 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <?php } ?>
                                                                         </div>
-
+<?php
+                        if (!$user->data()->accessLevel == 4) {
+                    ?>
                                                                         <div class="row">
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
@@ -1521,6 +1526,8 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
+                                                                        <?php } ?>
 
                                                                         <div class="row">
 
@@ -1663,7 +1670,9 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-
+<?php
+                        if (!$user->data()->accessLevel == 4) {
+                    ?>
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
@@ -1674,11 +1683,14 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <?php } ?>
                                                                         </div>
 
 
                                                                         <div class="row">
-
+<?php
+                        if (!$user->data()->accessLevel == 4) {
+                    ?>
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
@@ -1688,6 +1700,8 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
+                                                                            <?php } ?>
 
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
@@ -1721,6 +1735,9 @@ if ($user->isLoggedIn()) {
                                                                         </div>
 
                                                                         <div class="row">
+                                                                            <?php
+                        if (!$user->data()->accessLevel == 4) {
+                    ?>
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
@@ -1729,7 +1746,8 @@ if ($user->isLoggedIn()) {
                                                                                         <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" disabled />
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
+                                                                            </div> 
+                                                                            <?php } ?>
 
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
@@ -2303,13 +2321,19 @@ if ($user->isLoggedIn()) {
                                                             <?php } ?>
                                                         </td>
                                                     </tr>
+                                                    <?php
+                                                    $Add = 'Add View';
+                                                    if ($user->data()->accessLevel == 4) {
+                                                        $Add = 'View Visits';
+
+                                                    } ?>
                                                     <div class="modal fade" id="visit<?= $visit['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <form method="post">
                                                                     <div class="modal-header">
                                                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                        <h4>Add Visit</h4>
+                                                                        <h4><?= $Add ?></h4>
                                                                     </div>
                                                                     <div class="modal-body modal-body-np">
                                                                         <div class="row">
@@ -2374,12 +2398,14 @@ if ($user->isLoggedIn()) {
                                                                             <div class="dr"><span></span></div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="modal-footer">
-                                                                        <input type="hidden" name="id" value="<?= $visit['id'] ?>">
-                                                                        <input type="hidden" name="visit_code" value="<?= $visit_code ?>">
-                                                                        <input type="submit" name="add_visit" class="btn btn-warning" value="Save updates">
-                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                                    </div>
+                                                                    <?php if (!$user->data()->accessLevel == 4) { ?>
+                                                                        <div class="modal-footer">
+                                                                            <input type="hidden" name="id" value="<?= $visit['id'] ?>">
+                                                                            <input type="hidden" name="visit_code" value="<?= $visit_code ?>">
+                                                                            <input type="submit" name="add_visit" class="btn btn-warning" value="Save updates">
+                                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                        </div>
+                                                                    <?php } ?>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -4518,6 +4544,7 @@ if ($user->isLoggedIn()) {
                                         <td width="2%">#</td>
                                         <th width="8%">Enrollment Date</th>
                                         <th width="8%">PATIENT ID</th>
+                                        <th width="8%">CTC ID</th>
                                         <th width="8%">Name</th>
                                         <th width="8%">PHONE NUMBER</th>
                                         <th width="8%">EXPECTED DATE</th>
@@ -4564,6 +4591,7 @@ if ($user->isLoggedIn()) {
                                             <td><?= $x ?></td>
                                             <td><?= $value['ENROLLMENT_DATE'] ?></td>
                                             <td><?= $value['PATIENT_ID'] ?></td>
+                                            <td><?= $value['CTC_ID'] ?></td>
                                             <td> <?= $value['FIRST_NAME'] . ' ' . $client['LAST_NAME'] ?></td>
                                             <td><?= $value['PHONE_NUMBER'] ?></td>
                                             <td><?= $value['EXPECTED_DATE'] ?></td>

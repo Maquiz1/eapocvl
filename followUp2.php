@@ -105,17 +105,17 @@ $output .= '
 $output .= '
     <table width="100%" border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="20" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="20" align="center" style="font-size: 18px">
                         <b>' . $sub_title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="20" align="center" style="font-size: 18px">
                         <b>Total Follow Up ( ' . $dataCount . ' ):Done ( ' . $dataCount1 . ' ):Not Done ( ' . $dataCount0 . ' ):Missed ( ' . $dataCount2 . ' ):</b>
                     </td>
                 </tr>    
@@ -124,7 +124,12 @@ $output .= '
                     <th colspan="2">Enrollment Date</th>
                     <th colspan="2">PATIENT ID</th>
                     <th colspan="2">CTC ID</th>
+                    <th colspan="2">Name</th>        
                     <th colspan="2">PHONE NUMBER</th>
+                    <th colspan="2">EXPECTED DATE</th>
+                    <th colspan="2">VISIT DATE</th>
+                    <th colspan="2">VISIT STATUS</th>
+                    <th colspan="2">VISIT NAME</th>
                     <th colspan="3">SITE NAME</th>
                 </tr>    
      ';
@@ -159,7 +164,12 @@ foreach ($data as $client) {
                 <td colspan="2">' . $client['ENROLLMENT_DATE'] . '</td>
                 <td colspan="2">' . $client['PATIENT_ID'] . '</td>
                 <td colspan="2">' . $client['CTC_ID'] . '</td>
+                <td colspan="2">' . $client['FIRST_NAME'] . ' - ' . $client['LAST_NAME'] . '</td>
                 <td colspan="2">' . $client['PHONE_NUMBER'] . '</td>
+                <td colspan="2">' . $client['EXPECTED_DATE'] . '</td>
+                <td colspan="2">' . $client['VISIT_DATE'] . '</td>
+                <td colspan="2" class="' . $status . '">' . $VISIT_STATUS . '</td>
+                <td colspan="2">' . $client['VISIT_NAME'] . '</td>
                 <td colspan="3">' . $SITE_NAME . '</td>
             </tr>
             ';
