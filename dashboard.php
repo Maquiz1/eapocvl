@@ -151,11 +151,9 @@ if ($user->isLoggedIn()) {
                                 <table cellpadding="0" cellspacing="0" width="100%" class="table">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" name="checkall" /></th>
                                         <td width="20">#</td>
                                         <th width="40">Picture</th>
-                                        <th width="20%">Screening ID</th>
-                                        <th width="20%">Study ID</th>
+                                        <th width="20%">Patient ID</th>
                                         <th width="10%">Name</th>
                                         <th width="10%">Gender</th>
                                         <th width="10%">Age</th>
@@ -165,14 +163,12 @@ if ($user->isLoggedIn()) {
                                     <tbody>
                                     <?php $x=1;foreach ($visits as $visit) {$client=$override->get('clients', 'id', $visit['client_id'])[0] ?>
                                         <tr>
-                                            <td><input type="checkbox" name="checkbox" /></td>
                                             <td><?=$x?></td>
                                             <td width="100">
                                                 <?php if($client['client_image'] !='' || is_null($client['client_image'])){$img=$client['client_image'];}else{$img='img/users/blank.png';}?>
                                                 <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?=$img?>" width="90" height="90" class=""/></a>
                                             </td>
-                                            <td><?=$client['participant_id'] ?></td>
-                                            <td><?=$client['study_id'] ?></td>
+                                            <td><?=$client['enrollment_id'] ?></td>
                                             <td> <?=$client['firstname'] . ' ' . $client['lastname'] ?></td>
                                             <td><?=$client['gender'] ?></td>
                                             <td><?=$client['age'] ?></td>
