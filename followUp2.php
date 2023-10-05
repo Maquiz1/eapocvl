@@ -105,17 +105,17 @@ $output .= '
 $output .= '
     <table width="100%" border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="10" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="10" align="center" style="font-size: 18px">
                         <b>' . $sub_title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="10" align="center" style="font-size: 18px">
                         <b>Total Follow Up ( ' . $dataCount . ' ):Done ( ' . $dataCount1 . ' ):Not Done ( ' . $dataCount0 . ' ):Missed ( ' . $dataCount2 . ' ):</b>
                     </td>
                 </tr>    
