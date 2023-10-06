@@ -21,7 +21,7 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
     <div class="breadLine">
         <div class="arrow"></div>
         <div class="adminControl active">
-            Hi, <?= $user->data()->firstname ?>
+            Hi, <?= $user->data()->firstname.' - '. $user->data()->lastname ?>
         </div>
     </div>
 
