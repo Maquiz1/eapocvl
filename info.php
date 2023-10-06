@@ -631,7 +631,7 @@ if ($user->isLoggedIn()) {
             <div class="breadLine">
 
                 <ul class="breadcrumb">
-                    <li><a href="#">Info</a> <span class="divider">></span></li>
+                    <li><a href="#">Info</a> <span class="divider"></span></li>
                 </ul>
                 <?php include 'pageInfo.php' ?>
             </div>
@@ -1375,7 +1375,6 @@ if ($user->isLoggedIn()) {
                                         foreach ($clients as $client) {
                                             $site = $override->getData2('site', 'id', $client['site_id'])[0];
                                             $staff = $override->getData2('user', 'id', $client['staff_id'])[0];
-                                            // print_r($staff);
                                         ?>
                                             <tr>
                                                 <td><input type="checkbox" name="checkbox" /></td>
