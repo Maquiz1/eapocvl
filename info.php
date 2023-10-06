@@ -2397,7 +2397,7 @@ if ($user->isLoggedIn()) {
                                                                             <div class="dr"><span></span></div>
                                                                         </div>
                                                                     </div>
-                                                                    <?php if (!$user->data()->accessLevel == 4) { ?>
+                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                                         <div class="modal-footer">
                                                                             <input type="hidden" name="id" value="<?= $visit['id'] ?>">
                                                                             <input type="hidden" name="visit_code" value="<?= $visit_code ?>">
