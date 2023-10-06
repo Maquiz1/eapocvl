@@ -45,7 +45,7 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
                 <span class="isw-grid"></span><span class="text">Dashboard</span>
             </a>
         </li>
-        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+        <?php if ($user->data()->accessLevel == 1) { ?>
             <li class="openable">
                 <a href="#"><span class="isw-user"></span><span class="text">Staff</span></a>
                 <ul>
@@ -131,7 +131,7 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
                 </ul>
             </li>
         <?php } ?>
-        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel ==2 || $user->data()->accessLevel == 3) { ?>
 
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
