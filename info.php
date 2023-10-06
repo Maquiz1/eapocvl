@@ -1357,7 +1357,7 @@ if ($user->isLoggedIn()) {
                                             <th width="8%">Viral Load (At Enrollment)(copies/ml)</th>
                                             <th width="8%">Viral Load DATE(At Enrollment)</th>
                                             <th width="8%">Site</th>
-                                            <?php if ($user->data()->position == 1) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2 ||  $user->data()->accessLevel == 3) { ?>
                                                 <th width="8%">Name</th>
                                             <?php } ?>
                                             <th width="8%">Gender</th>
@@ -1395,7 +1395,7 @@ if ($user->isLoggedIn()) {
                                                 <td><?= $client['vl'] ?><br><br><span>(copies/ml)</span></td>
                                                 <td><?= $client['vl_date'] ?></td>
                                                 <td><?= $site['name'] ?></td>
-                                                <?php if ($user->data()->position == 1) { ?>
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2 ||  $user->data()->accessLevel == 3) { ?>
                                                     <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
                                                 <?php } ?>
                                                 <td><?= $client['gender'] ?></td>
@@ -2397,7 +2397,7 @@ if ($user->isLoggedIn()) {
                                                                             <div class="dr"><span></span></div>
                                                                         </div>
                                                                     </div>
-                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2 ||  $user->data()->accessLevel == 3) { ?>
                                                                         <div class="modal-footer">
                                                                             <input type="hidden" name="id" value="<?= $visit['id'] ?>">
                                                                             <input type="hidden" name="visit_code" value="<?= $visit_code ?>">
