@@ -93,6 +93,15 @@ class OverideData
         return $result;
     }
 
+    public function getNewsAscEnrollmentID($table, $where, $id, $where2, $id2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' ORDER BY enrollment_id ASC ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    
+
     public function getNewsAsc1($table, $where, $id, $where2, $id2)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where < '$id' AND $where2 = '$id2' ORDER id ASC ");

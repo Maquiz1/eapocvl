@@ -631,7 +631,7 @@ if ($user->isLoggedIn()) {
             <div class="breadLine">
 
                 <ul class="breadcrumb">
-                    <li><a href="#">Info</a> <span class="divider">></span></li>
+                    <li><a href="#">Info</a> <span class="divider"></span></li>
                 </ul>
                 <?php include 'pageInfo.php' ?>
             </div>
@@ -1375,7 +1375,6 @@ if ($user->isLoggedIn()) {
                                         foreach ($clients as $client) {
                                             $site = $override->getData2('site', 'id', $client['site_id'])[0];
                                             $staff = $override->getData2('user', 'id', $client['staff_id'])[0];
-                                            // print_r($staff);
                                         ?>
                                             <tr>
                                                 <td><input type="checkbox" name="checkbox" /></td>
@@ -4603,6 +4602,168 @@ if ($user->isLoggedIn()) {
                                     <?php
                                         $x++;
                                     }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    <?php } elseif ($_GET['id'] == 13) { ?>
+                        <div class="head clearfix">
+                            <?php if ($user->data()->power == 1 || $user->data()->power == 2 || $user->data()->accessLevel == 4) { ?>
+
+                            <?php } ?>
+                            <div class="isw-grid"></div>
+                            <?php if (Input::get('site') == 1) { ?>
+                                <h1>EAPOCVL FOLOW UP SCHEDULE FOR SINZA HOSPITAL</h1>
+                            <?php } elseif (Input::get('site') == 2) { ?>
+                                <h1>EAPOCVL FOLOW UP SCHEDULE FOR MNAZI MMOJA HOSPITAL</h1>
+                            <?php } elseif (Input::get('site') == 3) { ?>
+                                <h1>EAPOCVL FOLOW UP SCHEDULE FOR AMANA HOSPITAL</h1>
+                            <?php } elseif (Input::get('site') == 4) { ?>
+                                <h1>'EAPOCVL FOLOW UP SCHEDULE FOR MWANANYAMALA HOSPITAL</h1>
+                            <?php } else { ?>
+                                <h1>EAPOCVL FOLOW UP SCHEDULE FOR ALL NIMR SITES</h1>
+                            <?php } ?>
+                            <ul class="buttons">
+                                <?php if ($user->data()->power == 1) { ?>
+                                    <li><a href="schedule.php?site=<?= Input::get('site') ?>" class="isw-download"></a></li>
+
+                                <?php } ?>
+
+                                <li><a href="schedule2.php?site=<?= Input::get('site') ?>" class="isw-download"></a></li>
+
+                                <li><a href="#" class="isw-attachment"></a></li>
+                                <li>
+                                    <a href="#" class="isw-settings"></a>
+                                    <ul class="dd-list">
+                                        <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                        <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                        <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Search by Site</h1>
+                        </div>
+                        <tr>
+                            <td>
+                                <form id="validation" method="post">
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Site</label>
+                                                    <select name="site">
+                                                        <option value="">Select Site</option>
+                                                        <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
+                                                            <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <input type="submit" name="schedule" value="Search" class="btn btn-info">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </td>
+                        </tr>
+                        <div class="block-fluid">
+                            <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <thead>
+                                    <tr>
+                                        <td width="2%">#</td>
+                                        <th width="8%">Enrollment Date v1</th>
+                                        <th width="8%">PATIENT ID</th>
+                                        <th width="8%">CTC ID</th>
+                                        <th width="8%">Name</th>
+                                        <th width="8%">PHONE NUMBER</th>
+                                        <th width="8%">EXPECTED DATE v2 ( Months 6)</th>
+                                        <th width="8%">VISIT DATE v2 ( Month 6)</th>
+                                        <th width="8%">EXPECTED DATE v3 ( Month 12)</th>
+                                        <th width="8%">VISIT DATE v3 ( Month 12)</th>
+                                        <th width="8%">SITE NAME</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $x = 1;
+                                    // print_r($_POST);
+                                    if (Input::get('site')) {
+                                        $data = $override->getNews('clients', 'status', 1, 'site_id', Input::get('site'));
+                                    } else {
+                                        $data = $override->get('clients', 'status', 1);
+                                    }
+
+                                    foreach ($data as $value) {
+
+                                        if ($value['site_id'] == 1) {
+                                            $SITE_NAME = 'SINZA HOSPITAL';
+                                        } elseif ($value['site_id'] == 2) {
+                                            $SITE_NAME = 'MNAZI MMOJA HOSPITAL';
+                                        } elseif ($value['site_id'] == 3) {
+                                            $SITE_NAME = 'AMANA HOSPITAL';
+                                        } elseif ($value['site_id'] == 4) {
+                                            $SITE_NAME = 'MWANANYAMALA HOSPITAL';
+                                        } else {
+                                            $SITE_NAME = 'ALL NIMR SITES';
+                                        }
+
+
+                                        $visit = $override->get('visit', 'client_id', $value['id']);
+
+                                        foreach ($visit as $value2) {
+
+                                            if ($value2['visit_status'] == 1) {
+                                                $VISIT_STATUS = 'DONE';
+                                            } elseif ($value2['visit_status'] == 2) {
+                                                $VISIT_STATUS = 'MISSED';
+                                            } else {
+                                                $VISIT_STATUS = 'NOT DONE';
+                                            }
+
+                                            if ($value2['visit_code'] == 'D0') {
+                                                $visit_code1 = 'MONTH 0 ( V1 )';
+                                                $expected_date1 = $value2['expected_date'];
+                                                $visit_date1 = $value2['visit_date'];
+                                            }
+                                            if ($value2['visit_code'] == 'M6') {
+                                                $visit_code2 = 'MONTH 6 ( V2 )';
+                                                $expected_date2 = $value2['expected_date'];
+                                                $visit_date2 = $value2['visit_date'];
+                                            }
+                                            if ($value2['visit_code'] == 'M12') {
+                                                $visit_code3 = 'MONTH 12 ( V3 )';
+                                                $expected_date3 = $value2['expected_date'];
+                                                $visit_date3 = $value2['visit_date'];
+                                            }
+                                        }
+
+
+
+                                    ?>
+                                        <tr>
+                                            <td><?= $x ?></td>
+                                            <td><?= $value['clinic_date'] ?></td>
+                                            <td><?= $value['enrollment_id'] ?></td>
+                                            <td><?= $value['ctc_number'] ?></td>
+                                            <td> <?= $value['firstname'] . ' ' . $value['middlename'] . ' ' . $value['lastname'] ?></td>
+                                            <td><?= $value['phone_number'] ?></td>
+                                            <td><?= $expected_date2 ?></td>
+                                            <td><?= $visit_date2 ?></td>
+                                            <td><?= $expected_date3 ?></td>
+                                            <td><?= $visit_date3 ?></td>
+                                            <td><?= $SITE_NAME ?></td>
+                                        </tr>
+                                    <?php
+                                        $x++;
+                                    }
+
                                     ?>
                                 </tbody>
                             </table>
