@@ -21,7 +21,7 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
     <div class="breadLine">
         <div class="arrow"></div>
         <div class="adminControl active">
-            Hi, <?= $user->data()->firstname.' - '. $user->data()->lastname ?>
+            Hi, <?= $user->data()->firstname . ' - ' . $user->data()->lastname ?>
         </div>
     </div>
 
@@ -131,7 +131,7 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
                 </ul>
             </li>
         <?php } ?>
-        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel ==2 || $user->data()->accessLevel == 3) { ?>
+        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2 || $user->data()->accessLevel == 3) { ?>
 
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
@@ -221,6 +221,11 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
                     <li>
                         <a href="info.php?id=12">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Fetch List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=13">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Fetch Schedule</span>
                         </a>
                     </li>
 
