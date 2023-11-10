@@ -1270,7 +1270,7 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 3) { ?>
                         <div class="col-md-12">
-                            <?php if ($user->data()->power == 1 || $user->data()->power == 2 || $user->data()->accessLevel == 4) { ?>
+                            <?php if ($user->data()->power == 1) { ?>
                                 <div class="head clearfix">
                                     <div class="isw-ok"></div>
                                     <h1>Search by Site</h1>
