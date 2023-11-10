@@ -96,26 +96,29 @@ $output .= '
     <body>
         <header>
             <div><span class="page"></span></div>
-            <div class="reportTitle">EAPOC-VL Report</div>
+            <div class="reportTitle">EAPOC-VL Enrollment Log</div>
             <div class="tittle">National Institute For Medical Research (NIMR)</div>
-            <div class="period">' . date('Y-m-d') . '</div>
+            <div class="period"></div>
         </header>
 ';
 
 $output .= '
     <table width="100%" border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="18" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
                     </td>
                 </tr>   
                 <tr>
+                    <th colspan="2">PATI ENT ID</th>
                     <th colspan="2">Enrollment Date ( V1 )</th>
-                    <th colspan="2">PATIENT ID</th>
+                    <th colspan="2">STAFF INITIAL ( Month 1)</th>
                     <th colspan="2">EXPECTED DATE V2 ( Months 6)</th>
                     <th colspan="2">VISIT DATE V2 ( Month 6)</th>
+                    <th colspan="2">STAFF INITIAL ( Month 6)</th>
                     <th colspan="2">EXPECTED DATE V3 ( Months 12)</th>
                     <th colspan="2">VISIT DATE V3 ( Month 12)</th>
+                    <th colspan="2">STAFF INITIAL ( Month 6)</th>
                 </tr>    
      ';
 
@@ -166,12 +169,15 @@ foreach ($data as $value) {
 
     $output .= '
             <tr>
-                <td colspan="2">' . $value['clinic_date'] . '</td>
                 <td colspan="2">' . $value['enrollment_id'] . '</td>
+                <td colspan="2">' . $value['clinic_date'] . '</td>
+                <td colspan="2">' . $initial . '</td>
                 <td colspan="2">' . $expected_date2 . '</td>
-                <td colspan="2">' . $visit_date2 . '</td>
+                <td colspan="2">' . $visit_date . '</td>
+                <td colspan="2">' . $initial . '</td>
                 <td colspan="2">' . $expected_date3 . '</td>
-                <td colspan="2">' . $visit_date3 . '</td>     
+                <td colspan="2">' . $visit_date . '</td>
+                <td colspan="2">' . $initial . '</td>
             </tr>
             ';
     $x += 1;
