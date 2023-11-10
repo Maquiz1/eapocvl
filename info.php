@@ -1530,7 +1530,7 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                             <?php
-                                                                            if (!$user->data()->accessLevel == 4) {
+                                                                            // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
                                                                                 <div class="col-sm-3">
                                                                                     <div class="row-form clearfix">
@@ -1541,10 +1541,12 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            <?php } ?>
+                                                                            <?php
+                                                                        //  }
+                                                                          ?>
                                                                         </div>
                                                                         <?php
-                                                                        if (!$user->data()->accessLevel == 4) {
+                                                                        // if (!$user->data()->accessLevel == 4) {
                                                                         ?>
                                                                             <div class="row">
                                                                                 <div class="col-sm-3">
@@ -1588,7 +1590,9 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
 
-                                                                        <?php } ?>
+                                                                        <?php 
+                                                                    // }
+                                                                     ?>
 
                                                                         <div class="row">
 
@@ -1732,7 +1736,7 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                             <?php
-                                                                            if (!$user->data()->accessLevel == 4) {
+                                                                            // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
                                                                                 <div class="col-sm-3">
                                                                                     <div class="row-form clearfix">
@@ -1744,13 +1748,15 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            <?php } ?>
+                                                                            <?php
+                                                                        //  }
+                                                                          ?>
                                                                         </div>
 
 
                                                                         <div class="row">
                                                                             <?php
-                                                                            if (!$user->data()->accessLevel == 4) {
+                                                                            // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
                                                                                 <div class="col-sm-3">
                                                                                     <div class="row-form clearfix">
@@ -1762,7 +1768,9 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
 
-                                                                            <?php } ?>
+                                                                            <?php
+                                                                        //  }
+                                                                          ?>
 
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
@@ -1797,7 +1805,7 @@ if ($user->isLoggedIn()) {
 
                                                                         <div class="row">
                                                                             <?php
-                                                                            if (!$user->data()->accessLevel == 4) {
+                                                                            // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
                                                                                 <div class="col-sm-3">
                                                                                     <div class="row-form clearfix">
@@ -1808,7 +1816,9 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            <?php } ?>
+                                                                            <?php
+                                                                        //  }
+                                                                          ?>
 
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
