@@ -157,33 +157,44 @@ $mwanany = $override->getCount1('clients', 'status', 1, 'site_id', 4);
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients Registered</span></a>
                 <ul>
+                    <?php if ($user->data()->site_id == 1) { ?>
 
-                    <li>
-                        <a href="info.php?id=3&sid=1">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Sinza Clients</span>
-                            <span class="badge badge-secondary badge-pill"><?= $sinza ?></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info.php?id=3&sid=2">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mnazi mmoja Clients</span>
-                            <span class="badge badge-secondary badge-pill"><?= $mnazi ?></span>
+                        <li>
+                            <a href="info.php?id=3&sid=1">
+                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Sinza Clients</span>
+                                <span class="badge badge-secondary badge-pill"><?= $sinza ?></span>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($user->data()->site_id == 2) { ?>
+                        <li>
+                            <a href="info.php?id=3&sid=2">
+                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mnazi mmoja Clients</span>
+                                <span class="badge badge-secondary badge-pill"><?= $mnazi ?></span>
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info.php?id=3&sid=3">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Amana Clients</span>
-                            <span class="badge badge-secondary badge-pill"><?= $amana ?></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info.php?id=3&sid=4">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mwananyamala Clients</span>
-                            <span class="badge badge-secondary badge-pill"><?= $mwanany ?></span>
+                            </a>
+                        </li>
 
-                        </a>
-                    </li>
+                    <?php } ?>
+                    <?php if ($user->data()->site_id == 3) { ?>
+
+                        <li>
+                            <a href="info.php?id=3&sid=3">
+                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Amana Clients</span>
+                                <span class="badge badge-secondary badge-pill"><?= $amana ?></span>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($user->data()->site_id == 4) { ?>
+                        <li>
+                            <a href="info.php?id=3&sid=4">
+                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Mwananyamala Clients</span>
+                                <span class="badge badge-secondary badge-pill"><?= $mwanany ?></span>
+
+                            </a>
+                        </li>
+                    <?php } ?>
+
 
                 </ul>
             </li>
