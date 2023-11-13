@@ -132,6 +132,11 @@ if ($user->isLoggedIn()) {
                 'count' => 0,
             ), Input::get('id'));
             $successMessage = 'User Re-activated Successful';
+        } elseif (Input::get('deactivate_user')) {
+            $user->updateRecord('user', array(
+                'count' => 4,
+            ), Input::get('id'));
+            $successMessage = 'User Re-activated Successful';
         } elseif (Input::get('delete_staff')) {
             $user->updateRecord('user', array(
                 'status' => 0,
@@ -717,7 +722,8 @@ if ($user->isLoggedIn()) {
                                                 <td>
                                                     <a href="#user<?= $staff['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a>
                                                     <a href="#reset<?= $staff['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Reset</a>
-                                                    <a href="#reactivate_user<?= $staff['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Re-activate</a>
+                                                    <a href="#reactivate_user<?= $staff['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Re-Activate</a>
+                                                    <a href="#deactivate_user<?= $staff['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">De-Activate</a>
                                                     <a href="#delete<?= $staff['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                 </td>
 
@@ -859,7 +865,27 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $staff['id'] ?>">
-                                                                <input type="submit" name="reactivate_user" value="Reactivate User" class="btn btn-warning">
+                                                                <input type="submit" name="reactivate_user" value="Reactivate User" class="btn btn-info">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="deactivate_user<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>De-activate User Acount</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure you want to De-activate This User Acount</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                <input type="submit" name="deactivate_user" value="Deactivate User" class="btn btn-warning">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>
                                                         </div>
@@ -1532,67 +1558,67 @@ if ($user->isLoggedIn()) {
                                                                             <?php
                                                                             // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Hospital ID Number</label>
-                                                                                            <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" disabled />
-                                                                                        </div>
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Hospital ID Number</label>
+                                                                                        <input value="<?= $client['id_number'] ?>" type="text" name="id_number" id="id_number" disabled />
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
                                                                             <?php
-                                                                        //  }
-                                                                          ?>
+                                                                            //  }
+                                                                            ?>
                                                                         </div>
                                                                         <?php
                                                                         // if (!$user->data()->accessLevel == 4) {
                                                                         ?>
-                                                                            <div class="row">
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>CTC-ID Number:</label>
-                                                                                            <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" disabled />
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>First Name</label>
-                                                                                            <input value="<?= $client['firstname'] ?>" type="text" name="firstname" id="firstname" disabled />
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Middle Name</label>
-                                                                                            <input value="<?= $client['middlename'] ?>" type="text" name="middlename" id="middlename" disabled />
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Last Name</label>
-                                                                                            <input value="<?= $client['lastname'] ?>" type="text" name="lastname" id="lastname" disabled />
-                                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>CTC-ID Number:</label>
+                                                                                        <input value="<?= $client['ctc_number'] ?>" type="text" name="ctc_number" id="ctc_number" disabled />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
 
-                                                                        <?php 
-                                                                    // }
-                                                                     ?>
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>First Name</label>
+                                                                                        <input value="<?= $client['firstname'] ?>" type="text" name="firstname" id="firstname" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Middle Name</label>
+                                                                                        <input value="<?= $client['middlename'] ?>" type="text" name="middlename" id="middlename" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Last Name</label>
+                                                                                        <input value="<?= $client['lastname'] ?>" type="text" name="lastname" id="lastname" disabled />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <?php
+                                                                        // }
+                                                                        ?>
 
                                                                         <div class="row">
 
@@ -1738,19 +1764,19 @@ if ($user->isLoggedIn()) {
                                                                             <?php
                                                                             // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Phone Number:</label>
-                                                                                            <input value="<?= $client['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" disabled /> <span>Example: 0700 000 111</span>
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Phone Number:</label>
+                                                                                        <input value="<?= $client['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" disabled /> <span>Example: 0700 000 111</span>
 
-                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
                                                                             <?php
-                                                                        //  }
-                                                                          ?>
+                                                                            //  }
+                                                                            ?>
                                                                         </div>
 
 
@@ -1758,19 +1784,19 @@ if ($user->isLoggedIn()) {
                                                                             <?php
                                                                             // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Relative's Phone Number:</label>
-                                                                                            <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" disabled /> <span>Example: 0700 000 111</span>
-                                                                                        </div>
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Relative's Phone Number:</label>
+                                                                                        <input value="<?= $client['other_phone'] ?>" class="" type="text" name="other_phone" id="other_phone" disabled /> <span>Example: 0700 000 111</span>
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
 
                                                                             <?php
-                                                                        //  }
-                                                                          ?>
+                                                                            //  }
+                                                                            ?>
 
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
@@ -1807,18 +1833,18 @@ if ($user->isLoggedIn()) {
                                                                             <?php
                                                                             // if (!$user->data()->accessLevel == 4) {
                                                                             ?>
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>House Number:</label>
-                                                                                            <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" disabled />
-                                                                                        </div>
+                                                                            <div class="col-sm-3">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>House Number:</label>
+                                                                                        <input value="<?= $client['block_no'] ?>" class="" type="text" name="block_no" id="block_no" disabled />
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
                                                                             <?php
-                                                                        //  }
-                                                                          ?>
+                                                                            //  }
+                                                                            ?>
 
                                                                             <div class="col-sm-3">
                                                                                 <div class="row-form clearfix">
