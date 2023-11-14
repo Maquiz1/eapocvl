@@ -702,6 +702,7 @@ if ($user->isLoggedIn()) {
                                             <th width="20%">Username</th>
                                             <th width="20%">Position</th>
                                             <th width="20%">Site</th>
+                                            <th width="20%">Status</th>
                                             <th width="20%">Action</th>
                                         </tr>
                                     </thead>
@@ -719,6 +720,11 @@ if ($user->isLoggedIn()) {
                                                 <td><?= $staff['username'] ?></td>
                                                 <td><?= $position['name'] ?></td>
                                                 <td><?= $site['name'] ?></td>
+                                                <?php if ($staff['count'] < 4) { ?>
+                                                    <td>Active</td>
+                                                <?php } elseif ($staff['count'] == 4) { ?>
+                                                    <td>De-activated</td>
+                                                <?php } ?>
                                                 <td>
                                                     <a href="#user<?= $staff['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a>
                                                     <a href="#reset<?= $staff['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Reset</a>
