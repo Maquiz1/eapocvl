@@ -4735,6 +4735,7 @@ if ($user->isLoggedIn()) {
                                 <?php } ?>
 
                                 <li><a href="schedule2.php?site=<?= Input::get('site') ?>" class="isw-download"></a></li>
+                                <li><a href="schedule3.php?site=<?= Input::get('site') ?>" class="isw-download"></a></li>
 
                                 <li><a href="#" class="isw-attachment"></a></li>
                                 <li>
@@ -4787,6 +4788,8 @@ if ($user->isLoggedIn()) {
                                         <th width="8%">PATIENT ID</th>
                                         <th width="8%">CTC ID</th>
                                         <th width="8%">Name</th>
+                                        <th width="8%">Birth</th>
+                                        <th width="8%">Age</th>
                                         <th width="8%">PHONE NUMBER</th>
                                         <th width="8%">EXPECTED DATE v2 ( Months 6)</th>
                                         <th width="8%">VISIT DATE v2 ( Month 6)</th>
@@ -4857,6 +4860,8 @@ if ($user->isLoggedIn()) {
                                             <td><?= $value['enrollment_id'] ?></td>
                                             <td><?= $value['ctc_number'] ?></td>
                                             <td> <?= $value['firstname'] . ' ' . $value['middlename'] . ' ' . $value['lastname'] ?></td>
+                                            <td><?= $value['dob'] ?></td>
+                                            <td><?= $value['age'] ?></td>
                                             <td><?= $value['phone_number'] ?></td>
                                             <td><?= $expected_date2 ?></td>
                                             <td><?= $visit_date2 ?></td>
