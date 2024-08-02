@@ -8,7 +8,6 @@ $random = new Random();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
-$numRec = 35;
 
 if ($user->isLoggedIn()) {
 
@@ -16,9 +15,6 @@ if ($user->isLoggedIn()) {
     Redirect::to('index.php');
 }
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
