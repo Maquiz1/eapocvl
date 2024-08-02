@@ -1,3 +1,25 @@
+<?php
+require_once 'php/core/init.php';
+$user = new User();
+$override = new OverideData();
+$email = new Email();
+$random = new Random();
+
+$successMessage = null;
+$pageError = null;
+$errorMessage = null;
+$numRec = 35;
+
+if ($user->isLoggedIn()) {
+
+} else {
+    Redirect::to('index.php');
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
