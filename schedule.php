@@ -9,6 +9,7 @@ $random = new Random();
 if ($user->isLoggedIn()) {
     try {
         if ($_GET['site']) {
+            
             $data = $override->getNewsAscEnrollmentID('clients', 'status', 1, 'site_id', Input::get('site'));
             $dataCount = $override->FollowUpList7Count($_GET['start_date'], $_GET['end_date'], $_GET['site']);
 
